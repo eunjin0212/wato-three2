@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import logo from "../assets/logo_w.png";
 import bg from "../assets/basic_bg_pc.png";
 import bgMobile from "../assets/basic_bg.png";
-import api from '../api/axios';
+import { api, needHeaderApi } from '../api/axios';
 
 export default function Signin() {
   const [email, setEmail] = useState("");
@@ -17,10 +17,8 @@ export default function Signin() {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    console.log("form submitted");
-
     try {
-      const res = await api.post('signup', {
+      const res = await needHeaderApi({ authKey: Cookies.get('token') }).post('signup', {
         email,
         password,
         nickname,
@@ -29,28 +27,14 @@ export default function Signin() {
         job,
       })
       console.log(res)
+
+      if (res.data.message !== 'Success') {
+        throw new Error(res.data.message)
+      }
+
     } catch (error) {
       console.error(error)
     }
-    // Construct the payload with input values
-    // const formData = {
-    //   email,
-    //   password,
-    //   nickname,
-    //   gender,
-    //   yearOfBirth,
-    //   job,
-    // };
-
-    // Send formData to your signup API using Axios or Fetch
-    // Example using Axios:
-    // axios.post('your_signup_api_endpoint', formData)
-    //   .then(response => {
-    //     // Handle success
-    //   })
-    //   .catch(error => {
-    //     // Handle error
-    //   });
   }
 
   /**
@@ -63,6 +47,7 @@ export default function Signin() {
       if (res.data.message !== 'Success') {
         throw new Error(res.data.message)
       }
+
       Cookies.set('token', res.data.data.token, { expires: new Date(res.data.data.expiration), secure: true })
     } catch (error) {
       console.error(error)
