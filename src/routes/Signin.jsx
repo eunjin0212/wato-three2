@@ -13,7 +13,11 @@ export default function Signin() {
   const [yearOfBirth, setYearOfBirth] = useState("");
   const [job, setJob] = useState("");
 
-  // Function to handle form submission
+  /**
+   * 
+   * @param {HTMLFormElement} event
+   * @description 이메일 회원가입
+   */
   async function handleSubmit(event) {
     event.preventDefault();
 
@@ -26,7 +30,6 @@ export default function Signin() {
         yearOfBirth,
         job,
       })
-      console.log(res)
 
       if (res.data.message !== 'Success') {
         throw new Error(res.data.message)
