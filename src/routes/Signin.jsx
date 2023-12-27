@@ -43,16 +43,11 @@ export default function Signin() {
   };
 
   /**
-   * 
-   * @param {'email' | 'nickname'} type 
    * @returns {boolean} 유효성 검사 체크 통과 X -> true
    */
-  function checkTypoValidation(type) {
+  function checkTypoValidation() {
     const emailRegex = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/);
-    if(type === 'email') {
-      return !emailRegex.test(email)
-    }
-
+    return !emailRegex.test(email)
   }
 
   async function checkDuplicateEmail() {
@@ -62,6 +57,18 @@ export default function Signin() {
 
     try {
       const res = await api.get(`signup/check/email?email=${email}`)
+
+      if (res.data.message !== 'Success') {
+        throw new Error(res.data.message)
+      }
+    } catch(error) {
+      console.error(error)
+    }
+  }
+
+  async function checkDuplicateNickname() {
+    try {
+      const res = await api.get(`signup/check/email?nickname=${nickname}`)
 
       if (res.data.message !== 'Success') {
         throw new Error(res.data.message)
@@ -84,7 +91,7 @@ export default function Signin() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 onBlur={checkDuplicateEmail}
-                className="mb-3 bg-white border border-gray-300 text-gray-900 text-lg rounded-lg block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  h-14"
+                className="mb-3 bg-white border border-gray-300 text-gray-900 text-lg rounded-lg block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white h-14"
                 placeholder="이메일을 입력하세요"
                 required
                 name='email'
@@ -93,41 +100,48 @@ export default function Signin() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mb-3 bg-white border border-gray-300 text-gray-900 text-lg rounded-lg block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  h-14"
+                className="mb-3 bg-white border border-gray-300 text-gray-900 text-lg rounded-lg block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white h-14"
                 placeholder="비밀번호를 입력하세요"
                 required
+                name='password'
               />
               <input
                 type="text"
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
-                className="mb-3 bg-white border border-gray-300 text-gray-900 text-lg rounded-lg block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  h-14"
+                onBlur={checkDuplicateNickname}
+                className="mb-3 bg-white border border-gray-300 text-gray-900 text-lg rounded-lg block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white h-14"
                 placeholder="닉네임을 입력하세요"
                 required
+                name='nickname'
               />
+              {/* NOTE: select 로 되어야 하는 것 아닌지? */}
               <input
                 type="text"
                 value={gender}
                 onChange={(e) => setGender(e.target.value)}
-                className="mb-3 bg-white border border-gray-300 text-gray-900 text-lg rounded-lg block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  h-14"
+                className="mb-3 bg-white border border-gray-300 text-gray-900 text-lg rounded-lg block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white h-14"
                 placeholder="성별을 입력하세요"
                 required
+                name='gender'
               />
               <input
                 type="text"
                 value={yearOfBirth}
                 onChange={(e) => setYearOfBirth(e.target.value)}
-                className="mb-3 bg-white border border-gray-300 text-gray-900 text-lg rounded-lg block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  h-14"
+                className="mb-3 bg-white border border-gray-300 text-gray-900 text-lg rounded-lg block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white h-14"
                 placeholder="생년월일을 입력하세요 (YYYY-MM-DD)"
                 required
+                name='yearOfBirth'
               />
               <input
                 type="text"
                 value={job}
                 onChange={(e) => setJob(e.target.value)}
-                className="mb-3 bg-white border border-gray-300 text-gray-900 text-lg rounded-lg block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  h-14"
+                className="mb-3 bg-white border border-gray-300 text-gray-900 text-lg rounded-lg block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white h-14"
                 placeholder="직업을 입력하세요"
                 required
+                name='job'
               />
               <button
                 type="submit"
