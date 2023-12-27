@@ -1,7 +1,5 @@
-import  { useState } from "react";
-// import { Link } from "react-router-dom";
-// import axios from "axios";
-
+import { useState } from "react";
+import Cookies from 'js-cookie';
 import logo from "../assets/logo_w.png";
 import bg from "../assets/basic_bg_pc.png";
 import bgMobile from "../assets/basic_bg.png";
@@ -16,11 +14,24 @@ export default function Signin() {
   const [job, setJob] = useState("");
 
   // Function to handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  async function handleSubmit(event) {
+    event.preventDefault();
 
     console.log("form submitted");
 
+    try {
+      const res = await api.post('signup', {
+        email,
+        password,
+        nickname,
+        gender,
+        yearOfBirth,
+        job,
+      })
+      console.log(res)
+    } catch (error) {
+      console.error(error)
+    }
     // Construct the payload with input values
     // const formData = {
     //   email,
@@ -40,14 +51,42 @@ export default function Signin() {
     //   .catch(error => {
     //     // Handle error
     //   });
-  };
+  }
 
   /**
+   * @description 이메일 회원가입 인증 코드 발송
+   */
+  async function sendEmailAuthCode() {
+    try {
+      const res = await api.get(`auth/signup/email?email=${email}`)
+
+      if (res.data.message !== 'Success') {
+        throw new Error(res.data.message)
+      }
+      Cookies.set('token', res.data.data.token, { expires: new Date(res.data.data.expiration), secure: true })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  /**
+   * @param {'email' | 'birth'} type 
+   * @param {string | undefined} value 
    * @returns {boolean} 유효성 검사 체크 통과 X -> true
    */
-  function checkTypoValidation() {
-    const emailRegex = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/);
-    return !emailRegex.test(email)
+  function checkTypoValidation(type, value) {
+    if (type === 'email') {
+      const emailRegex = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/)
+
+      return !emailRegex.test(email)
+    }
+
+    if (type === 'birth') {
+      const dateRegex = new RegExp(/^\d{4}-\d{2}-\d{2}$/)
+      const dateNumberRegex = new RegExp(/^(19|20)\d{2}-(0[1-9]|1[0-2])-([0-2][1-9]|3[01])$/)
+
+      return (!dateRegex.test(value) || !dateNumberRegex.test(value))
+    }
   }
 
   async function checkDuplicateEmail() {
@@ -61,7 +100,8 @@ export default function Signin() {
       if (res.data.message !== 'Success') {
         throw new Error(res.data.message)
       }
-    } catch(error) {
+      sendEmailAuthCode()
+    } catch (error) {
       console.error(error)
     }
   }
@@ -73,7 +113,7 @@ export default function Signin() {
       if (res.data.message !== 'Success') {
         throw new Error(res.data.message)
       }
-    } catch(error) {
+    } catch (error) {
       console.error(error)
     }
   }
@@ -147,7 +187,7 @@ export default function Signin() {
                 type="submit"
                 className="text-primary bg-white font-bold rounded-lg text-xl w-96 px-3 py-3 me-2 mt-3 mb-2 dark:bg-blue-600 dark:text-white focus:outline-none"
               >
-                회원가입
+                {Cookies.get('token') ? '회원가입' : '이메일 인증'}
               </button>
             </form>
           </div>
