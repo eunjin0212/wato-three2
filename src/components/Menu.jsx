@@ -1,15 +1,12 @@
-import React from "react";
 import { Link, useLocation } from "react-router-dom";
-
-import home from "../assets/app01.png";
-import homeOn from "../assets/app01_on.png";
-
-import recommend from "../assets/app02.png";
-import recommendOn from "../assets/app02_on.png";
-import mypage from "../assets/app03.png";
-import mypageOn from "../assets/app03_on.png";
-import alerticon from "../assets/app04.png";
-import alerticonOn from "../assets/app04_on.png";
+import home from "@/assets/app01.png";
+import homeOn from "@/assets/app01_on.png";
+import recommend from "@/assets/app02.png";
+import recommendOn from "@/assets/app02_on.png";
+import mypage from "@/assets/app03.png";
+import mypageOn from "@/assets/app03_on.png";
+import alerticon from "@/assets/app04.png";
+import alerticonOn from "@/assets/app04_on.png";
 
 export default function Menu() {
   const location = useLocation();
@@ -19,7 +16,7 @@ export default function Menu() {
   const isAlarm = location.pathname === "/alarm";
 
   return (
-    <div className="w-10 bg-white p-2 lg:p-4 lg:static fixed bottom-0 left-0 w-full z-10 lg:z-auto lg:w-auto lg:flex lg:flex-col lg:items-start rounded-xl border-slate-300 border shadow-md lg:h-80">
+    <div className="w-10 bg-white p-2 lg:p-4 lg:static fixed bottom-0 left-0 z-10 lg:z-auto lg:w-auto lg:flex lg:flex-col lg:items-start rounded-xl border-slate-300 border shadow-md lg:h-80">
       <div className="flex justify-between lg:flex-col lg:space-y-8 px-4 lg:px-0">
         <Link to="/index">
           <div className="flex flex-col items-center space-y-1">

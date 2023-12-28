@@ -1,8 +1,8 @@
-import airplay from '../images/airplay.svg';
-import clipboard from '../images/clipboard.svg';
-import settings from '../images/settings.svg';
-import smile from '../images/smile.svg';
-import user from '../images/user.svg';
+import airplay from '@/images/airplay.svg';
+import clipboard from '@/images/clipboard.svg';
+import settings from '@/images/settings.svg';
+import smile from '@/images/smile.svg';
+import user from '@/images/user.svg';
 import MenuItem from '@/ui/MenuItem';
 
 export const Sidebar = () => {

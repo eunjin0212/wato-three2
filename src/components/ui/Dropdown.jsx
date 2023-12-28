@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import dropdown from "../assets/dropdown.png";
+import { useState } from "react";
+import dropdown from "@/assets/dropdown.png";
 
-export default function Dropdown({ title, date, description, detail, note }) {
+const Dropdown = ({ title, date, description, detail, note }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -33,3 +33,5 @@ export default function Dropdown({ title, date, description, detail, note }) {
     </div>
   );
 }
+
+export default Dropdown

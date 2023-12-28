@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
-import Menu from "../components/Menu";
-import Topbar from "../components/Topbar";
+import Menu from "@/components/Menu";
+import Topbar from "@/ui/Topbar";
 
 const Dropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -102,8 +102,8 @@ export default function Customer() {
             <form>
               <div>
                 <label
-                  for="first_name"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  htmlFor="first_name"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   보내는 사람 이메일
                 </label>
@@ -112,7 +112,7 @@ export default function Customer() {
                   <input
                     type="text"
                     id="first_name"
-                    class="bg-white border border-gray-300 text-gray-900 text-lg rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white h-14"
+                    className="bg-white border border-gray-300 text-gray-900 text-lg rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white h-14"
                     placeholder="메일주소입력"
                     required
                   />
@@ -125,7 +125,7 @@ export default function Customer() {
                 <input
                   type="text"
                   id="first_name"
-                  class="mb-3 bg-white border border-gray-300 text-gray-900 text-lg rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  h-14"
+                  className="mb-3 bg-white border border-gray-300 text-gray-900 text-lg rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  h-14"
                   placeholder="제목을 입력하세요"
                   required
                 />
@@ -133,14 +133,14 @@ export default function Customer() {
                 <input
                   type="text"
                   id="first_name"
-                  class="bg-white border border-gray-300 text-gray-900 text-lg rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white h-56"
+                  className="bg-white border border-gray-300 text-gray-900 text-lg rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white h-56"
                   placeholder="문의 내용을 입력해주세요"
                   required
                 />
               </div>
               <button
                 type="button"
-                class="w-full text-white bg-primary hover:bg-blue-800 font-bold rounded-lg text-xl px-5 py-4 me-2 mt-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none"
+                className="w-full text-white bg-primary hover:bg-blue-800 font-bold rounded-lg text-xl px-5 py-4 me-2 mt-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none"
               >
                 문의하기
               </button>

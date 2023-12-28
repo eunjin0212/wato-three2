@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import Menu from "../components/Menu";
-import Topbar from "../components/Topbar";
+import Menu from "@/components/Menu";
+import Topbar from "@/ui/Topbar";
 
-import info from "../assets/ico-myinfo.png";
-import setting from "../assets/ico-setting.svg";
-import notice from "../assets/ico-notice.svg";
-import customer from "../assets/ico-customer.png";
-import help from "../assets/ico-help.svg";
-import chevronRight from "../assets/ico-arrow-right.png";
+import info from "@/assets/ico-myinfo.png";
+import setting from "@/assets/ico-setting.svg";
+import notice from "@/assets/ico-notice.svg";
+import customer from "@/assets/ico-customer.png";
+import help from "@/assets/ico-help.svg";
+import chevronRight from "@/assets/ico-arrow-right.png";
 
 const documents1 = [
   {

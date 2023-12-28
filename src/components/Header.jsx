@@ -1,5 +1,5 @@
-import profilePicture from "../images/profile-picture.png";
-import bell from "../images/bell.svg";
+import profilePicture from "@/images/profile-picture.png";
+import bell from "@/images/bell.svg";
 import { Link } from "react-router-dom";
 
 export const Header = ({ userInfo, links }) => {

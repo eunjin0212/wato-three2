@@ -1,11 +1,10 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import backicon from "../assets/back.png";
-import logo from "../assets/logo.png";
+import { useState } from "react";
+// import { useNavigate } from "react-router-dom";
+import logo from "@/assets/logo.png";
 
-export default function LogoTopbar({ title, alignLeft, nomenu }) {
+const LogoTopbar = ({ alignLeft, nomenu }) => {
   const [selectedMenu, setSelectedMenu] = useState("홈");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleMenuClick = (menu) => {
     setSelectedMenu(menu);
@@ -69,3 +68,4 @@ export default function LogoTopbar({ title, alignLeft, nomenu }) {
     </div>
   );
 }
+export default LogoTopbar

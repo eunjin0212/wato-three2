@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Topbar from "@/ui/Topbar";
+import mouth from "@/assets/cate01.png";
 
-import Topbar from "../components/Topbar";
 
-import mouth from "../assets/cate01.png";
 
 export default function Write() {
   const navigate = useNavigate();
@@ -70,32 +70,32 @@ export default function Write() {
       });
   };
 
-  const onDeleteComment = (commentId) => {
-    console.log("onDeleteComment", commentId);
-    const authToken =
-      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaXNzIjoiV2F0byIsImlhdCI6MTcwMzAwMDc0NCwiZXhwIjoxNzAzNjA1NTQ0fQ.6WSafHxzscQnUijReCvQiliovFHTDR6jzDJ6EhrxCJE";
+  // const onDeleteComment = (commentId) => {
+  //   console.log("onDeleteComment", commentId);
+  //   const authToken =
+  //     "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaXNzIjoiV2F0byIsImlhdCI6MTcwMzAwMDc0NCwiZXhwIjoxNzAzNjA1NTQ0fQ.6WSafHxzscQnUijReCvQiliovFHTDR6jzDJ6EhrxCJE";
 
-    const endpoint = "https://katalk.store/api/";
+  //   const endpoint = "https://katalk.store/api/";
 
-    // 댓글 삭제
-    axios
-      .delete(`${endpoint}post/${id}/comment`, {
-        data: {
-          commentId: commentId,
-        },
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
-        setUpdate(!update);
-        console.log("Comment deleted successfully:", response.data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
+  //   // 댓글 삭제
+  //   axios
+  //     .delete(`${endpoint}post/${id}/comment`, {
+  //       data: {
+  //         commentId: commentId,
+  //       },
+  //       headers: {
+  //         Authorization: `Bearer ${authToken}`,
+  //         "Content-Type": "application/json",
+  //       },
+  //     })
+  //     .then((response) => {
+  //       setUpdate(!update);
+  //       console.log("Comment deleted successfully:", response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error:", error);
+  //     });
+  // };
 
   const createPost = () => {
     const authToken =
@@ -169,7 +169,7 @@ export default function Write() {
             <form onSubmit={handleSubmit}>
               <div>
                 <label
-                  for="first_name"
+                  htmlFor="first_name"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   국가 선택
@@ -183,7 +183,7 @@ export default function Write() {
                 </div>
 
                 <label
-                  for="first_name"
+                  htmlFor="first_name"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   카테고리 선택
@@ -219,7 +219,7 @@ export default function Write() {
               </div>
               <button
                 type="submit"
-                class="w-full text-white bg-primary hover:bg-blue-800 font-bold rounded-lg text-xl px-5 py-4 me-2 mt-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none"
+                className="w-full text-white bg-primary hover:bg-blue-800 font-bold rounded-lg text-xl px-5 py-4 me-2 mt-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none"
               >
                 글쓰기
               </button>

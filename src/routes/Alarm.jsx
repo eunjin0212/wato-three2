@@ -1,10 +1,9 @@
-import React, { useState } from "react";
 
-import Menu from "../components/Menu";
-import Topbar from "../components/Topbar";
+import Menu from "@/components/Menu";
+import Topbar from "@/ui/Topbar";
 
-import info from "../assets/ico-myinfo.png";
-import setting from "../assets/ico-setting.svg";
+// import info from "@/assets/ico-myinfo.png";
+// import setting from "@/assets/ico-setting.svg";
 
 const Card = ({ title, date, active }) => {
   return (

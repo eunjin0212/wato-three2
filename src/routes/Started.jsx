@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import logo from "../assets/logo_w.png";
-import bg from "../assets/basic_bg_pc.png";
-import bgMobile from "../assets/basic_bg.png";
+import logo from "@/assets/logo_w.png";
+import bg from "@/assets/basic_bg_pc.png";
+import bgMobile from "@/assets/basic_bg.png";
 
 export default function Started() {
   return (

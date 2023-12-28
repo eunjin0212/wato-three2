@@ -1,5 +1,3 @@
-import React from "react";
-
 const FloatyIcon = () => {
   return (
     <div className="fixed bottom-5 right-5">

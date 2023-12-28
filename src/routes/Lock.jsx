@@ -1,11 +1,9 @@
-import React, { useState } from "react";
 
-import Menu from "../components/Menu";
-import Topbar from "../components/Topbar";
-import Dropdown from "../components/Dropdown";
-import Toggle from "../components/Toggle";
+import Menu from "@/components/Menu";
+import Topbar from "@/ui/Topbar";
+import Toggle from "@/ui/Toggle";
 
-import lockIcon from "../assets/ico-lock.png";
+import lockIcon from "@/assets/ico-lock.png";
 
 const documents = [
   {

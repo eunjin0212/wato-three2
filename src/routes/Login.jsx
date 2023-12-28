@@ -1,12 +1,12 @@
-import logo from "../assets/logo_w.png";
-import kakao from "../assets/kakao.png";
-import email from "../assets/email.png";
-import facebook from "../assets/facebook.png";
-import naver from "../assets/naver.png";
+import logo from "@/assets/logo_w.png";
+import kakao from "@/assets/kakao.png";
+import email from "@/assets/email.png";
+import facebook from "@/assets/facebook.png";
+import naver from "@/assets/naver.png";
 
-import bg from "../assets/basic_bg_pc.png";
-import bgMobile from "../assets/basic_bg.png";
-import SnsButton from '../components/SnsButton';
+import bg from "@/assets/basic_bg_pc.png";
+import bgMobile from "@/assets/basic_bg.png";
+import SnsButton from '@/ui/SnsButton';
 
 export default function Login() {
   return (

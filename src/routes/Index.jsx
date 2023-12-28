@@ -5,15 +5,15 @@ import axios from "axios";
 import { useRef } from "react";
 import { useDraggable } from "react-use-draggable-scroll";
 
-import Menu from "../components/Menu";
-import LogoTopbar from "../components/LogoTopbar";
-import FloatyIcon from "../components/FloatyIcon";
+import Menu from "@/components/Menu";
+import LogoTopbar from "@/components/LogoTopbar";
+import FloatyIcon from "@/components/FloatyIcon";
 
-import korea from "../assets/korea.png";
-import comment from "../assets/ico_comment_line.png";
-import bubble from "../assets/ico-comment-gray.svg";
-import banner from "../assets/banner.png";
-import bannermobile from "../assets/bannermobile.png";
+import korea from "@/assets/korea.png";
+import comment from "@/assets/ico_comment_line.png";
+import bubble from "@/assets/ico-comment-gray.svg";
+import banner from "@/assets/banner.png";
+import bannermobile from "@/assets/bannermobile.png";
 
 export default function Index() {
   const [data, setData] = useState([]);

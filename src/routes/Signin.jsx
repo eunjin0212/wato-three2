@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Cookies from 'js-cookie';
-import logo from "../assets/logo_w.png";
-import bg from "../assets/basic_bg_pc.png";
-import bgMobile from "../assets/basic_bg.png";
+import logo from "@/assets/logo_w.png";
+import bg from "@/assets/basic_bg_pc.png";
+import bgMobile from "@/assets/basic_bg.png";
 import { api, needHeaderApi } from '../api/axios';
 
 export default function Signin() {

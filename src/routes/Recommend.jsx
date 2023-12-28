@@ -2,12 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useDraggable } from "react-use-draggable-scroll";
 
-import Menu from "../components/Menu";
-import Carousel from "../components/Carousel";
+import Menu from "@/components/Menu";
+import Carousel from "@/ui/Carousel";
 import { useNavigate } from "react-router-dom";
-import logo from "../assets/logo.png";
+import logo from "@/assets/logo.png";
 
-import korea from "../assets/korea.png";
+import korea from "@/assets/korea.png";
 
 export default function Recommend() {
   const [isMobile, setIsMobile] = useState(false);
@@ -235,7 +235,7 @@ const Card = ({
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center">
             {tag && (
-              <span class="bg-blue-50 text-primary text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+              <span className="bg-blue-50 text-primary text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
                 {categoryName}
               </span>
             )}
@@ -280,7 +280,7 @@ function CardDrag({ data, tag, country, padding, formatDate }) {
               <div className="flex flex-row items-center justify-between">
                 <div className="flex flex-row items-center">
                   {tag && (
-                    <span class="bg-blue-50 text-primary text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+                    <span className="bg-blue-50 text-primary text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
                       {category.categoryName}
                     </span>
                   )}

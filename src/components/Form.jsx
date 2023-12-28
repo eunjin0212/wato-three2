@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import add from "../images/add.svg";
+import add from "@/images/add.svg";
 
 import { API } from "../../api";
 import { Navigate, useNavigate } from "react-router";

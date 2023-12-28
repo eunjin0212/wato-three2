@@ -1,6 +1,5 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
-import backicon from "../assets/back.png";
+import backicon from "@/assets/back.png";
 
 export default function Topbar({ title, alignLeft }) {
   const navigate = useNavigate();

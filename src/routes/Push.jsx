@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
-import Menu from "../components/Menu";
-import Topbar from "../components/Topbar";
-import Dropdown from "../components/Dropdown";
-import Toggle from "../components/Toggle";
+import Menu from "@/components/Menu";
+import Topbar from "@/ui/Topbar";
+import Dropdown from "@/ui/Dropdown";
+import Toggle from "@/ui/Toggle";
 
 const documents = [
   {

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import Menu from "../components/Menu";
-import Topbar from "../components/Topbar";
+import Menu from "@/components/Menu";
+import Topbar from "@/ui/Topbar";
 
-import chevronRight from "../assets/ico-arrow-right.png";
+import chevronRight from "@/assets/ico-arrow-right.png";
 
 const documents1 = [
   {

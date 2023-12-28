@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
-import Topbar from "../components/Topbar";
-
-import mouth from "../assets/cate01.png";
+import Topbar from "@/ui/Topbar";
+import mouth from "@/assets/cate01.png";
 
 export default function Edit() {
   const {
@@ -156,7 +154,7 @@ export default function Edit() {
             <form onSubmit={handleSubmit}>
               <div>
                 <label
-                  for="first_name"
+                  htmlFor="first_name"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   국가 선택
@@ -170,7 +168,7 @@ export default function Edit() {
                 </div>
 
                 <label
-                  for="first_name"
+                  htmlFor="first_name"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   카테고리 선택
@@ -207,7 +205,7 @@ export default function Edit() {
               </div>
               <button
                 type="submit"
-                class="w-full text-white bg-primary hover:bg-blue-800 font-bold rounded-lg text-xl px-5 py-4 me-2 mt-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none"
+                className="w-full text-white bg-primary hover:bg-blue-800 font-bold rounded-lg text-xl px-5 py-4 me-2 mt-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none"
               >
                 글 수정
               </button>

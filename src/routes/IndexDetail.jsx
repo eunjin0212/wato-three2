@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import LogoTopbar from "../components/LogoTopbar";
+import LogoTopbar from "@/components/LogoTopbar";
 import axios from "axios";
 import { Link, useLocation, useParams } from "react-router-dom";
 
@@ -7,11 +7,11 @@ import { useRef } from "react";
 import { useDraggable } from "react-use-draggable-scroll";
 
 import { useNavigate } from "react-router-dom";
-import backicon from "../assets/back.png";
+import backicon from "@/assets/back.png";
 
-import bubble from "../assets/ico-comment-gray.svg";
-import trash from "../assets/trash-2.svg";
-import edit from "../assets/edit.svg";
+import bubble from "@/assets/ico-comment-gray.svg";
+import trash from "@/assets/trash-2.svg";
+import edit from "@/assets/edit.svg";
 
 export default function Terms() {
   const { id } = useParams();
@@ -225,14 +225,14 @@ export default function Terms() {
                 onChange={handleCommentChange}
                 type="text"
                 id="first_name"
-                class="mb-2 mt-2 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  h-14"
+                className="mb-2 mt-2 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  h-14"
                 placeholder="댓글을 입력하세요"
                 required
               />
 
               <button
                 type="submit"
-                class="w-full text-white bg-primary hover:bg-blue-800 font-bold rounded-lg text-sm px-5 py-4 me-2 mt-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none"
+                className="w-full text-white bg-primary hover:bg-blue-800 font-bold rounded-lg text-sm px-5 py-4 me-2 mt-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none"
               >
                 댓글 쓰기
               </button>
@@ -303,7 +303,7 @@ function Topbar({ title, alignLeft, formatDate, data, id }) {
           <p className="text-xs text-gray-600 w-20 text-center lg:w-28 lg:text-sm">
             {formatDate(data.createDate)}
           </p>
-          <span class="bg-blue-50 text-primary text-xs font-medium ml-2 px-2.5 py-0.5 rounded dark:bg-blue-900 white-space nowrap dark:text-blue-300 h-6 lg:text-sm">
+          <span className="bg-blue-50 text-primary text-xs font-medium ml-2 px-2.5 py-0.5 rounded dark:bg-blue-900 white-space nowrap dark:text-blue-300 h-6 lg:text-sm">
             {data.categoryName}
           </span>
 

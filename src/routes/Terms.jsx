@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import Menu from "../components/Menu";
-import Topbar from "../components/Topbar";
-import Dropdown from "../components/Dropdown";
+import Menu from "@/components/Menu";
+import Topbar from "@/ui/Topbar";
+import Dropdown from "@/ui/Dropdown";
 
 const data = [
   {
