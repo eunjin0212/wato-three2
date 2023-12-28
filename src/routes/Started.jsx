@@ -1,11 +1,19 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-
 import logo from "@/assets/logo_w.png";
 import bg from "@/assets/basic_bg_pc.png";
 import bgMobile from "@/assets/basic_bg.png";
+import LinkButton from '@/components/ui/LinkButton';
 
 export default function Started() {
+  const links = [
+    {
+      label: '로그인',
+      to: '/login'
+    },
+    {
+      label: '회원가입',
+      to: '/signin'
+    },
+  ]
   return (
     <div className="flex flex-col lg:flex-row bg-primary min-h-screen">
       <div className="flex-1 px-10 flex flex-col text-center justify-between items-center">
@@ -13,27 +21,13 @@ export default function Started() {
 
         <div className="mb-40 lg:mb-0">
           <h1 className="font-medium text-white text-xl  mt-10 mb-2">
-            "우리는 하나"
+            &quot;우리는 하나&quot;
           </h1>
 
           <div className="flex flex-col">
-            <Link to="/login">
-              <button
-                type="button"
-                className="text-primary bg-white font-bold rounded-lg text-xl lg:w-96 w-80 px-3 py-3  mt-3 mb-2 dark:bg-blue-600 focus:outline-none"
-              >
-                로그인
-              </button>
-            </Link>
-
-            <Link to="/signin">
-              <button
-                type="button"
-                className="text-primary bg-white font-bold rounded-lg text-xl lg:w-96 w-80 px-3 py-3 mt-3 mb-2 dark:bg-blue-600 focus:outline-none"
-              >
-                회원가입
-              </button>
-            </Link>
+            {links.map(({ label, to }) => (
+              <LinkButton key={label} to={to} label={label} />
+            ))}
           </div>
         </div>
 
