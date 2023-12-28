@@ -14,6 +14,7 @@ export default defineConfig({
       { find: "@/images", replacement: path.resolve(__dirname, "./src/images") },
       { find: "@/assets", replacement: path.resolve(__dirname, "./src/assets") },
       { find: "@/api", replacement: path.resolve(__dirname, "./src/api") },
+      { find: "@/utils", replacement: path.resolve(__dirname, "./src/utils") },
     ],
   },
 })
