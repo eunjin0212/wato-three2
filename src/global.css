@@ -14,3 +14,24 @@
     scrollbar-width: none; /* Firefox */
   }
 }
+
+@layer components {
+  .input {
+    @apply bg-white border text-gray-900 text-lg rounded-lg block p-2.5 mb-3 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white
+  }
+  .button {
+    @apply text-primary bg-white font-bold rounded-lg text-xl px-3 py-3 mt-3 mb-2 dark:bg-blue-500 dark:text-white focus:outline-none
+  }
+}
+
+/* Chrome, Safari, Edge, Opera */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

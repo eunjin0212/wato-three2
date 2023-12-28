@@ -1,17 +1,19 @@
 import { useState } from "react";
+import { api, needHeaderApi } from '@/api/axios';
 import Cookies from 'js-cookie';
 import logo from "@/assets/logo_w.png";
 import bg from "@/assets/basic_bg_pc.png";
 import bgMobile from "@/assets/basic_bg.png";
-import { api, needHeaderApi } from '../api/axios';
+import Input from '@/ui/Input';
+import replaceBirthDay from '../utils/replaceBirthDay';
 
-export default function Signin() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [nickname, setNickname] = useState("");
-  const [gender, setGender] = useState("");
-  const [yearOfBirth, setYearOfBirth] = useState("");
-  const [job, setJob] = useState("");
+const Signin = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [nickname, setNickname] = useState('');
+  const [gender, setGender] = useState('');
+  const [yearOfBirth, setYearOfBirth] = useState('');
+  const [job, setJob] = useState('');
 
   /**
    * 
@@ -58,7 +60,7 @@ export default function Signin() {
   }
 
   /**
-   * @param {'email' | 'birth'} type 
+   * @param {'email' | 'birth' | 'nickname'} type 
    * @param {string | undefined} value 
    * @returns {boolean} 유효성 검사 체크 통과 X -> true
    */
@@ -67,6 +69,10 @@ export default function Signin() {
       const emailRegex = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/)
 
       return !emailRegex.test(email)
+    }
+
+    if (type === 'nickname') {
+      return !(value.length > 6)
     }
 
     if (type === 'birth') {
@@ -95,6 +101,9 @@ export default function Signin() {
   }
 
   async function checkDuplicateNickname() {
+    if (checkTypoValidation('nickname', nickname)) {
+      throw new Error('올바른 닉네임을 입력해주세요.')
+    }
     try {
       const res = await api.get(`signup/check/email?nickname=${nickname}`)
 
@@ -106,6 +115,51 @@ export default function Signin() {
     }
   }
 
+  const inputs = [
+    {
+      type: 'text',
+      value: email,
+      onChange: (e) => setEmail(e.target.value),
+      onBlur: () => checkDuplicateEmail(),
+      placeholder: '이메일을 입력하세요',
+      required: true,
+      name: 'email'
+    },
+    {
+      type: 'password',
+      value: password,
+      onChange: (e) => setPassword(e.target.value),
+      placeholder: '비밀번호를 입력하세요',
+      required: true,
+      name: 'password'
+    },
+    {
+      type: 'text',
+      value: nickname,
+      onChange: (e) => setNickname(e.target.value),
+      onBlur: () => checkDuplicateNickname(),
+      placeholder: '닉네임을 입력하세요',
+      required: true,
+      name: 'nickname',
+    },
+    {
+      type:'text',
+      value: yearOfBirth,
+      onChange: (e) => setYearOfBirth(() => replaceBirthDay(e.target.value)),
+      placeholder: '생년월일을 입력하세요 (YYYY-MM-DD)',
+      required: true,
+      name: 'yearOfBirth',
+    },
+    {
+      type:'text',
+      value: job,
+      onChange: (e) => setJob(e.target.value),
+      placeholder:'직업을 입력하세요',
+      required: true,
+      name:'job',
+    }
+  ]
+
   return (
     <div className="flex flex-col lg:flex-row bg-primary min-h-screen">
       <div className="flex-1 px-10 flex flex-col text-center justify-between items-center">
@@ -114,35 +168,18 @@ export default function Signin() {
           <div>
             <form onSubmit={handleSubmit}>
               {/* TODO: input component 만들기 */}
-              <input
-                type="text"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                onBlur={checkDuplicateEmail}
-                className="mb-3 bg-white border border-gray-300 text-gray-900 text-lg rounded-lg block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white h-14"
-                placeholder="이메일을 입력하세요"
-                required
-                name='email'
-              />
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="mb-3 bg-white border border-gray-300 text-gray-900 text-lg rounded-lg block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white h-14"
-                placeholder="비밀번호를 입력하세요"
-                required
-                name='password'
-              />
-              <input
-                type="text"
-                value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
-                onBlur={checkDuplicateNickname}
-                className="mb-3 bg-white border border-gray-300 text-gray-900 text-lg rounded-lg block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white h-14"
-                placeholder="닉네임을 입력하세요"
-                required
-                name='nickname'
-              />
+              {inputs.map(({ type, value, onChange, onBlur, placeholder, name }, idx) => (
+                <Input
+                  key={`${name}_${idx}`}
+                  type={type}
+                  value={value}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  placeholder={placeholder}
+                  name={name}
+                  required
+                />
+              ))}
               {/* NOTE: select 로 되어야 하는 것 아닌지? */}
               <input
                 type="text"
@@ -151,29 +188,11 @@ export default function Signin() {
                 className="mb-3 bg-white border border-gray-300 text-gray-900 text-lg rounded-lg block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white h-14"
                 placeholder="성별을 입력하세요"
                 required
-                name='gender'
-              />
-              <input
-                type="text"
-                value={yearOfBirth}
-                onChange={(e) => setYearOfBirth(e.target.value)}
-                className="mb-3 bg-white border border-gray-300 text-gray-900 text-lg rounded-lg block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white h-14"
-                placeholder="생년월일을 입력하세요 (YYYY-MM-DD)"
-                required
-                name='yearOfBirth'
-              />
-              <input
-                type="text"
-                value={job}
-                onChange={(e) => setJob(e.target.value)}
-                className="mb-3 bg-white border border-gray-300 text-gray-900 text-lg rounded-lg block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white h-14"
-                placeholder="직업을 입력하세요"
-                required
-                name='job'
+                name="gender"
               />
               <button
-                type="submit"
-                className="text-primary bg-white font-bold rounded-lg text-xl w-96 px-3 py-3 me-2 mt-3 mb-2 dark:bg-blue-600 dark:text-white focus:outline-none"
+                type='submit'
+                className='w-96 me-2 button'
               >
                 {Cookies.get('token') ? '회원가입' : '이메일 인증'}
               </button>
@@ -195,3 +214,4 @@ export default function Signin() {
     </div>
   );
 }
+export default Signin
