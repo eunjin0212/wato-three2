@@ -21,7 +21,6 @@ const Signin = () => {
   const [validate, setValidate] = useState({ email: { msg: '', status: null }, code: { msg: '', status: null }, nickname: { msg: '', status: null } })
 
   /**
-   * 
    * @param {HTMLFormElement} event
    * @description 이메일 회원가입
    */
@@ -59,7 +58,8 @@ const Signin = () => {
       }
 
       setValidate((prev) => ({ ...prev, code: { msg: '인증에 성공했습니다.', status: true } }))
-      Cookies.set('token', res.data.data.token, { expires: new Date(res.data.data.expiration), secure: true })
+      setValidate((prev) => ({ ...prev, email: { msg: '', status: null } }))
+      Cookies.set('token', authKey, { expires: new Date(res.data.data.expiration), secure: true })
     } catch (error) {
       setValidate((prev) => ({ ...prev, code: { msg: '인증이 실패했습니다.', status: false } }))
       console.error(error)
@@ -263,7 +263,7 @@ const Signin = () => {
             type='submit'
             className='w-full me-2 button'
           >
-            {Cookies.get('token') ? '회원가입' : '이메일 인증'}
+            회원가입
           </button>
         </form>
         <img
