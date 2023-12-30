@@ -198,7 +198,7 @@ export default function Terms() {
             {commentData.map((item) => {
               return (
                 <div key={item.id}>
-                  <div className="flex p-4 bg-gray-100 inline-block rounded-lg mb-2 flex-row justify-between">
+                  <div className="flex p-4 bg-gray-100 rounded-lg mb-2 flex-row justify-between">
                     <div>
                       <p className="text-sm lg:text-md font-regular whitespace-pre-line">
                         {item.content}

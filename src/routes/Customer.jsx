@@ -33,7 +33,7 @@ const Dropdown = () => {
         <div className="relative inline-block">
           <button
             type="button"
-            className="bg-white border border-gray-300 text-gray-900 text-lg rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  h-14 w-44"
+            className="bg-white border border-gray-300 text-gray-900 text-lg rounded-lg  block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  h-14 w-44"
             id="menu-button"
             aria-expanded={isOpen ? "true" : "false"}
             aria-haspopup="true"
@@ -62,7 +62,7 @@ const Dropdown = () => {
 
         {isOpen && (
           <div
-            className="absolute bg-white border border-gray-300 text-gray-900 text-lg rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white w-44"
+            className="absolute bg-white border border-gray-300 text-gray-900 text-lg rounded-lg  block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white w-44"
             role="menu"
             aria-labelledby="menu-button"
             tabIndex="-1"

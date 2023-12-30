@@ -6,6 +6,7 @@ import bg from "@/assets/basic_bg_pc.png";
 import bgMobile from "@/assets/basic_bg.png";
 import Input from '@/ui/Input';
 import replaceBirthDay from '../utils/replaceBirthDay';
+import Select from '../components/ui/Select';
 
 const Signin = () => {
   const [email, setEmail] = useState('');
@@ -14,6 +15,10 @@ const Signin = () => {
   const [gender, setGender] = useState('');
   const [yearOfBirth, setYearOfBirth] = useState('');
   const [job, setJob] = useState('');
+  const [code, setCode] = useState('');
+  const [checkCode, setCheckCode] = useState('');
+  const [authKey, setAuthKey] = useState('');
+  const [validate, setValidate] = useState({ email: { msg: '', status: null }, code: { msg: '', status: null }, nickname: { msg: '', status: null } })
 
   /**
    * 
@@ -43,18 +48,20 @@ const Signin = () => {
   }
 
   /**
-   * @description 이메일 회원가입 인증 코드 발송
+   * @description 이메일 회원가입 인증 코드 확인
    */
-  async function sendEmailAuthCode() {
+  async function checkEmailCode() {
     try {
-      const res = await api.get(`auth/signup/email?email=${email}`)
+      const res = await needHeaderApi({ authKey }).post('auth/signup/email', { code })
 
-      if (res.data.message !== 'Success') {
+      if (!res.data.data) {
         throw new Error(res.data.message)
       }
 
+      setValidate((prev) => ({ ...prev, code: { msg: '인증에 성공했습니다.', status: true } }))
       Cookies.set('token', res.data.data.token, { expires: new Date(res.data.data.expiration), secure: true })
     } catch (error) {
+      setValidate((prev) => ({ ...prev, code: { msg: '인증이 실패했습니다.', status: false } }))
       console.error(error)
     }
   }
@@ -72,7 +79,7 @@ const Signin = () => {
     }
 
     if (type === 'nickname') {
-      return !(value.length > 6)
+      return value.length > 6
     }
 
     if (type === 'birth') {
@@ -83,67 +90,115 @@ const Signin = () => {
     }
   }
 
+  /**
+   * @description 이메일 인증 코드 발송
+   */
+  async function sendEmailAuthCode() {
+    try {
+      const res = await api.get(`auth/signup/email?email=${email}`)
+
+      if (res.data.message !== 'Success') {
+        throw new Error(res.data.message)
+      }
+
+      setCheckCode(true)
+      setAuthKey(res.data.data.token)
+      setValidate((prev) => ({ ...prev, email: { msg: '인증코드가 발송되었습니다.', status: true } }))
+    } catch (error) {
+      setValidate((prev) => ({ ...prev, email: { msg: '인증코드 발송에 실패했습니다.', status: false } }))
+      console.error(error)
+    }
+  }
+
+  /**
+   * @description 이메일 중복체크
+   */
   async function checkDuplicateEmail() {
     if (checkTypoValidation('email')) {
-      throw new Error('올바른 이메일을 입력해주세요.')
+      setValidate((prev) => ({ ...prev, email: { msg: '올바른 이메일을 입력해주세요.', status: false } }))
+      return
     }
 
     try {
       const res = await api.get(`signup/check/email?email=${email}`)
 
-      if (res.data.message !== 'Success') {
+      if (!res.data.data) {
         throw new Error(res.data.message)
       }
       sendEmailAuthCode()
+
     } catch (error) {
+      setValidate((prev) => ({ ...prev, email: { msg: '중복된 이메일 입니다.', status: false } }))
       console.error(error)
     }
   }
 
+  /**
+   * @description 닉네임 중복체크
+   */
   async function checkDuplicateNickname() {
     if (checkTypoValidation('nickname', nickname)) {
-      throw new Error('올바른 닉네임을 입력해주세요.')
+      setValidate((prev) => ({ ...prev, nickname: { msg: '올바른 닉네임을 입력해주세요.', status: false } }))
+      return;
     }
     try {
-      const res = await api.get(`signup/check/email?nickname=${nickname}`)
+      const res = await api.get(`signup/check/nickname?nickname=${nickname}`)
 
       if (res.data.message !== 'Success') {
         throw new Error(res.data.message)
       }
+
+      setValidate((prev) => ({ ...prev, nickname: { msg: '사용할 수 있는 닉네임 입니다.', status: true } }))
     } catch (error) {
       console.error(error)
+      setValidate((prev) => ({ ...prev, nickname: { msg: '닉네임 중복체크에 실패했습니다.', status: false } }))
     }
   }
 
-  const inputs = [
+  const validateInputs = [
     {
       type: 'text',
       value: email,
       onChange: (e) => setEmail(e.target.value),
-      onBlur: () => checkDuplicateEmail(),
+      onClick: () => checkDuplicateEmail(),
       placeholder: '이메일을 입력하세요',
-      required: true,
-      name: 'email'
+      name: 'email',
+      display: true,
+      buttonLabel: '인증코드 발송',
     },
+    {
+      type: 'text',
+      value: code,
+      onChange: (e) => setCode(e.target.value),
+      onClick: () => checkEmailCode(),
+      placeholder: '인증코드를 입력해주세요',
+      name: 'code',
+      display: checkCode,
+      buttonLabel: '인증코드 확인'
+    },
+    {
+      type: 'text',
+      value: nickname,
+      onChange: (e) => setNickname(e.target.value),
+      onClick: () => checkDuplicateNickname(),
+      placeholder: '닉네임을 입력하세요',
+      name: 'nickname',
+      display: true,
+      buttonLabel: '중복 확인'
+    },
+  ]
+
+  const inputs = [
     {
       type: 'password',
       value: password,
       onChange: (e) => setPassword(e.target.value),
       placeholder: '비밀번호를 입력하세요',
       required: true,
-      name: 'password'
+      name: 'password',
     },
     {
       type: 'text',
-      value: nickname,
-      onChange: (e) => setNickname(e.target.value),
-      onBlur: () => checkDuplicateNickname(),
-      placeholder: '닉네임을 입력하세요',
-      required: true,
-      name: 'nickname',
-    },
-    {
-      type:'text',
       value: yearOfBirth,
       onChange: (e) => setYearOfBirth(() => replaceBirthDay(e.target.value)),
       placeholder: '생년월일을 입력하세요 (YYYY-MM-DD)',
@@ -151,55 +206,66 @@ const Signin = () => {
       name: 'yearOfBirth',
     },
     {
-      type:'text',
+      type: 'text',
       value: job,
       onChange: (e) => setJob(e.target.value),
-      placeholder:'직업을 입력하세요',
+      placeholder: '직업을 입력하세요',
       required: true,
-      name:'job',
+      name: 'job',
     }
   ]
 
   return (
     <div className="flex flex-col lg:flex-row bg-primary min-h-screen">
       <div className="flex-1 px-10 flex flex-col text-center justify-between items-center">
-        <div className="flex flex-col items-center">
-          <img src={logo} alt="Home Icon" className="mt-40 mb-8" />
-          <div>
-            <form onSubmit={handleSubmit}>
-              {/* TODO: input component 만들기 */}
-              {inputs.map(({ type, value, onChange, onBlur, placeholder, name }, idx) => (
-                <Input
-                  key={`${name}_${idx}`}
-                  type={type}
-                  value={value}
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  placeholder={placeholder}
-                  name={name}
-                  required
-                />
-              ))}
-              {/* NOTE: select 로 되어야 하는 것 아닌지? */}
-              <input
-                type="text"
-                value={gender}
-                onChange={(e) => setGender(e.target.value)}
-                className="mb-3 bg-white border border-gray-300 text-gray-900 text-lg rounded-lg block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white h-14"
-                placeholder="성별을 입력하세요"
+        <img src={logo} alt="Home Icon" className="mt-40 mb-8" />
+        <form onSubmit={handleSubmit} className='w-96 flex flex-col gap-3'>
+          {validateInputs.map(({ type, value, onChange, onClick, placeholder, name, display, buttonLabel }, idx) => (
+            display && <div className='flex items-start' key={`${name}_${idx}`}>
+              <Input
+                type={type}
+                value={value}
+                className='flex-1'
+                onChange={(e) => {
+                  setValidate((prev) => ({ ...prev, [name]: { msg: '', status: null } }));
+                  onChange(e)
+                }}
+                placeholder={placeholder}
                 required
-                name="gender"
+                name={name}
+                validate={validate[name]}
               />
-              <button
-                type='submit'
-                className='w-96 me-2 button'
-              >
-                {Cookies.get('token') ? '회원가입' : '이메일 인증'}
-              </button>
-            </form>
-          </div>
-        </div>
-
+              {buttonLabel && <button type='button' className='w-[7.5rem] h-14 ml-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-lg rounded-lg p-2.5 border' onClick={onClick}>
+                {buttonLabel}
+              </button>}
+            </div>
+          ))}
+          {inputs.map(({ type, value, onChange, placeholder, name }, idx) => (
+            <Input
+              key={`${name}_${idx}`}
+              type={type}
+              value={value}
+              onChange={onChange}
+              placeholder={placeholder}
+              name={name}
+              required
+            />
+          ))}
+          <Select
+            options={['여자', '남자']}
+            value={gender}
+            name='gender'
+            placeholder='성별을 입력하세요'
+            required
+            onChange={(e) => setGender(e.target.value)}
+          />
+          <button
+            type='submit'
+            className='w-full me-2 button'
+          >
+            {Cookies.get('token') ? '회원가입' : '이메일 인증'}
+          </button>
+        </form>
         <img
           src={bg}
           alt="Desktop Background"

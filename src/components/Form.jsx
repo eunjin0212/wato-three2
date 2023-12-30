@@ -136,7 +136,6 @@ export const Form = () => {
             )}
           </div>
           {/* Dropdown */}
-          {/* ddd */}
         </label>
         <label className="flex flex-col items-start text-[28px] gap-y-3 font-bold">
           Age

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useDraggable } from "react-use-draggable-scroll";
 
@@ -275,7 +275,7 @@ function CardDrag({ data, tag, country, padding, formatDate }) {
     >
       {data.map((category) => {
         return (
-          <div className={`w-full w-[300px] mb-10`}>
+          <div className={`w-[300px] mb-10`} key={category.countryName}>
             <div className="p-4 flex flex-col rounded-lg shadow-sm bg-white justify-start space-y-2 w-[220px]">
               <div className="flex flex-row items-center justify-between">
                 <div className="flex flex-row items-center">

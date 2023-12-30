@@ -17,7 +17,7 @@
 
 @layer components {
   .input {
-    @apply bg-white border text-gray-900 text-lg rounded-lg block p-2.5 mb-3 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white
+    @apply bg-white border text-gray-900 text-lg rounded-lg block p-2.5 dark:bg-gray-700 placeholder:text-gray-400 dark:text-white
   }
   .button {
     @apply text-primary bg-white font-bold rounded-lg text-xl px-3 py-3 mt-3 mb-2 dark:bg-blue-500 dark:text-white focus:outline-none
@@ -33,5 +33,6 @@ input[type=number]::-webkit-inner-spin-button {
 
 /* Firefox */
 input[type=number] {
+  appearance: textfield;
   -moz-appearance: textfield;
 }

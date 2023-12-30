@@ -13,7 +13,7 @@ export const Card = ({ item, className, textColor }) => {
         {tags.map((item) => {
           return (
             <span
-              className="border border-lowborder bg-white text-sm font-normal px-3 py-2 rounded-[8px] font-semibold"
+              className="border border-lowborder bg-white text-sm px-3 py-2 rounded-[8px] font-semibold"
               key={item}
               style={{ color: textColor }}
             >
