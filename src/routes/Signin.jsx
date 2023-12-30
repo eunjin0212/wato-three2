@@ -18,7 +18,8 @@ const Signin = () => {
   const [code, setCode] = useState('');
   const [checkCode, setCheckCode] = useState('');
   const [authKey, setAuthKey] = useState('');
-  const [validate, setValidate] = useState({ email: { msg: '', status: null }, code: { msg: '', status: null }, nickname: { msg: '', status: null } })
+  const initValidate = { email: { msg: '', status: null }, code: { msg: '', status: null }, nickname: { msg: '', status: null } }
+  const [validate, setValidate] = useState({ ...initValidate })
 
   /**
    * @param {HTMLFormElement} event
@@ -26,6 +27,11 @@ const Signin = () => {
    */
   async function handleSubmit(event) {
     event.preventDefault();
+
+    const failToPass = Object.values(validate).find(val => !val.status)
+    if (failToPass) {
+      throw new Error()
+    }
 
     try {
       const res = await needHeaderApi({ authKey: Cookies.get('token') }).post('signup', {
@@ -37,8 +43,8 @@ const Signin = () => {
         job,
       })
 
-      if (res.data.message !== 'Success') {
-        throw new Error(res.data.message)
+      if (!res.data.data) {
+        throw new Error()
       }
 
     } catch (error) {
@@ -159,7 +165,11 @@ const Signin = () => {
     {
       type: 'text',
       value: email,
-      onChange: (e) => setEmail(e.target.value),
+      onChange: (e) => {
+        setValidate((prev) => ({ ...prev, email: { msg: '', status: null }, code: { msg: '', status: null } }));
+        setCode('')
+        setEmail(e.target.value)
+      },
       onClick: () => checkDuplicateEmail(),
       placeholder: '이메일을 입력하세요',
       name: 'email',
@@ -226,10 +236,7 @@ const Signin = () => {
                 type={type}
                 value={value}
                 className='flex-1'
-                onChange={(e) => {
-                  setValidate((prev) => ({ ...prev, [name]: { msg: '', status: null } }));
-                  onChange(e)
-                }}
+                onChange={onChange}
                 placeholder={placeholder}
                 required
                 name={name}
