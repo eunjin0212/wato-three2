@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { api, needHeaderApi } from '@/api/axios';
+import { useNavigate } from "react-router";
 import Cookies from 'js-cookie';
 import logo from "@/assets/logo_w.png";
 import bg from "@/assets/basic_bg_pc.png";
@@ -7,7 +8,6 @@ import bgMobile from "@/assets/basic_bg.png";
 import Input from '@/ui/Input';
 import Select from '@/ui/Select';
 import replaceBirthDay from '@/utils/replaceBirthDay';
-import { useNavigate } from "react-router";
 
 
 const Signin = () => {
@@ -93,12 +93,12 @@ const Signin = () => {
       return value.length > 6
     }
 
-    if (type === 'birth') {
-      const dateRegex = new RegExp(/^\d{4}-\d{2}-\d{2}$/)
-      const dateNumberRegex = new RegExp(/^(19|20)\d{2}-(0[1-9]|1[0-2])-([0-2][1-9]|3[01])$/)
+    // if (type === 'birth') {
+    //   const dateRegex = new RegExp(/^\d{4}-\d{2}-\d{2}$/)
+    //   const dateNumberRegex = new RegExp(/^(19|20)\d{2}-(0[1-9]|1[0-2])-([0-2][1-9]|3[01])$/)
 
-      return (!dateRegex.test(value) || !dateNumberRegex.test(value))
-    }
+    //   return (!dateRegex.test(value) || !dateNumberRegex.test(value))
+    // }
   }
 
   /**
