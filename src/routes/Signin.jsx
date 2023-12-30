@@ -5,8 +5,10 @@ import logo from "@/assets/logo_w.png";
 import bg from "@/assets/basic_bg_pc.png";
 import bgMobile from "@/assets/basic_bg.png";
 import Input from '@/ui/Input';
-import replaceBirthDay from '../utils/replaceBirthDay';
-import Select from '../components/ui/Select';
+import Select from '@/ui/Select';
+import replaceBirthDay from '@/utils/replaceBirthDay';
+import { useNavigate } from "react-router";
+
 
 const Signin = () => {
   const [email, setEmail] = useState('');
@@ -21,6 +23,7 @@ const Signin = () => {
   const initValidate = { email: { msg: '', status: null }, code: { msg: '', status: null }, nickname: { msg: '', status: null } }
   const [validate, setValidate] = useState({ ...initValidate })
 
+  const navigate = useNavigate()
   /**
    * @param {HTMLFormElement} event
    * @description 이메일 회원가입
@@ -46,6 +49,8 @@ const Signin = () => {
       if (!res.data.data) {
         throw new Error()
       }
+
+      navigate('/index')
 
     } catch (error) {
       console.error(error)
