@@ -15,15 +15,12 @@ import { needHeaderApi } from '@/api/axios';
 
 export default function Index() {
   const [categories] = useState([])
+  const [post, setPost] = useState([])
   async function refreshToken() {
     try {
-      const res = await needHeaderApi(
-        {
-          headers: {
-            Authorization: `Bearer ${Cookies.get('token')}`,
-            'Content-Type': 'application/json',
-          }
-        }).post('auth/refresh')
+      const res = await needHeaderApi({
+        Authorization: `Bearer ${Cookies.get('token')}`,
+      }).post('auth/refresh')
 
       console.log(res.data)
 
@@ -31,6 +28,24 @@ export default function Index() {
       console.error(error)
     }
   }
+
+  async function getPostList() {
+    try {
+      const res = await needHeaderApi({
+        Authorization: `Bearer ${Cookies.get('token')}`,
+      }).get('main/post', {
+        params: {
+          filter: 'top',
+          page: 1,
+          size: 5
+        }
+      })
+      setPost(res.data.data.list)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   const navigate = useNavigate()
   useEffect(() => {
     if (!Cookies.get('token')) {
@@ -38,8 +53,7 @@ export default function Index() {
       return;
     }
     refreshToken();
-
-    return () => { };
+    getPostList();
   }, []);
 
   return (
@@ -63,9 +77,9 @@ export default function Index() {
               className='w-full lg:ml-8 lg:mr-8  h-[110px] lg:h-18 object-cover'
             />
             <div className='flex flex-col w-full ml-5 mr-5 lg:ml-8 lg:mr-8'>
-              {/* {data.map((doc, index) => (
+              {post.map((doc, index) => (
                 <Card key={index} {...doc} />
-              ))} */}
+              ))}
             </div>
           </div>
         </div>
@@ -74,7 +88,6 @@ export default function Index() {
   );
 }
 
-// eslint-disable-next-line no-unused-vars
 const Card = ({
   title,
   content,

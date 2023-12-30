@@ -8,7 +8,7 @@ import bgMobile from "@/assets/basic_bg.png";
 import Input from '@/ui/Input';
 import Select from '@/ui/Select';
 import replaceBirthDay from '@/utils/replaceBirthDay';
-
+import checkEmailType from '@/utils/checkEmailType';
 
 const Signin = () => {
   const [email, setEmail] = useState('');
@@ -84,9 +84,7 @@ const Signin = () => {
    */
   function checkTypoValidation(type, value) {
     if (type === 'email') {
-      const emailRegex = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/)
-
-      return !emailRegex.test(email)
+      return checkEmailType(email)
     }
 
     if (type === 'nickname') {
@@ -246,6 +244,7 @@ const Signin = () => {
                 required
                 name={name}
                 validate={validate[name]}
+                inputClass='h-14'
               />
               {buttonLabel && <button type='button' className='w-[7.5rem] h-14 ml-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-lg rounded-lg p-2.5 border' onClick={onClick}>
                 {buttonLabel}
@@ -261,6 +260,7 @@ const Signin = () => {
               placeholder={placeholder}
               name={name}
               required
+              inputClass='h-14'
             />
           ))}
           <Select
@@ -269,6 +269,7 @@ const Signin = () => {
             name='gender'
             placeholder='성별을 입력하세요'
             required
+            className='h-14'
             onChange={(e) => setGender(e.target.value)}
           />
           <button

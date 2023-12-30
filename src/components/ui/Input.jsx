@@ -11,12 +11,14 @@ import { useEffect, useState } from 'react'
  * @property {() => void} onChange
  * @property {{ msg: string; status: boolean | null } | undefined} validate
  * @property {boolean} required
+ * @property {string} className
+ * @property {string} inputClass
  */
 
 /**
  * @param {Props} props
  */
-const Input = ({ name, value, type, placeholder, onBlur, onChange, validate, required, className }) => {
+const Input = ({ name, value, type, placeholder, onBlur, onChange, validate, required, className, inputClass }) => {
   const [validation, setValidation] = useState(validate)
 
   useEffect(() => {
@@ -31,12 +33,17 @@ const Input = ({ name, value, type, placeholder, onBlur, onChange, validate, req
         onChange={(e) => onChange(e)}
         autoComplete="true"
         onBlur={onBlur ? () => onBlur() : null}
-        className={['input w-full h-14', validation?.status === false ? 'border-red-600' : validation?.status ? 'border-green-600' : 'border-gray-300 dark:border-gray-600'].join(' ')}
+        className={['input w-full', inputClass, validation?.status === false ? 'border-red-600' : validation?.status ? 'border-green-600' : 'border-gray-300 dark:border-gray-600'].join(' ')}
         placeholder={placeholder}
         required={required}
         name={name}
       />
-      {validation?.status !== null && <span className={['mt-2', !validation?.status ? 'text-red-600' : 'text-green-600'].join(' ')}>{validation?.msg}</span>}
+      {
+        (validation?.status !== null && validation !== undefined) &&
+        <span className={['mt-2', !validation?.status ? 'text-red-600' : 'text-green-600'].join(' ')}>
+          {validation?.msg}
+        </span>
+      }
     </div>
   )
 }

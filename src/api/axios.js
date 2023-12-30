@@ -12,8 +12,7 @@ export const api = axios.create({
 })
 
 /**
- * 
- * @param {Record<AxiosHeaders>} headers 
+ * @param {AxiosHeaders} headers 
  * @returns 
  */
 export const needHeaderApi = (headers) => axios.create({
