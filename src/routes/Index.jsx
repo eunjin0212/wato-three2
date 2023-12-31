@@ -1,21 +1,23 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useDraggable } from 'react-use-draggable-scroll';
+// import { useDraggable } from 'react-use-draggable-scroll';
 import { useNavigate } from 'react-router';
 import Cookies from 'js-cookie';
 import korea from '@/assets/korea.png';
 import comment from '@/assets/ico_comment_line.png';
-import bubble from '@/assets/ico-comment-gray.svg';
+import bubble from '@/assets/ico_comment_gray.svg';
 import banner from '@/assets/banner.png';
 import bannermobile from '@/assets/bannermobile.png';
 import Menu from '@/components/Menu';
 import LogoTopbar from '@/components/LogoTopbar';
 import FloatyIcon from '@/components/FloatyIcon';
+import Chip from '@/ui/Chip';
 import { api } from '@/api/axios';
 
 export default function Index() {
-  const [categories] = useState([])
+  const [categories, setCategories] = useState([])
   const [post, setPost] = useState([])
+
   async function refreshToken() {
     try {
       const res = await api.post('auth/refresh')
@@ -46,45 +48,57 @@ export default function Index() {
     }
   }
 
+  async function getCategoryList() {
+    try {
+      const res = await api.get('main/category')
+      setCategories(res.data.data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   const navigate = useNavigate()
   useEffect(() => {
     if (!Cookies.get('token')) {
       navigate('/')
       return;
     }
-    refreshToken();
-    getPostList();
+
+    refreshToken()
+    getPostList()
+    getCategoryList()
+
+    return () => { }
   }, []);
 
   return (
-    <div className='flex flex-col lg:flex-row bg-gray-100 min-h-screen'>
-      <div className='flex-1'>
-        <LogoTopbar />
-        <div className='max-w-3xl mx-auto pt-3 pb-16 flex'>
+    <main className='flex flex-col bg-gray-100 min-h-screen'>
+      <LogoTopbar />
+      <section className='flex flex-col max-w-3xl mx-auto px-5 lg:px-8 pt-3 pb-16'>
+        <Link to='/write'>
+          <FloatyIcon />
+        </Link>
+        <div className='flex flex-row gap-3'>
           <Menu />
-          <div className='flex flex-1 flex-wrap space-y-3 '>
-            <Link to='/write'>
-              <FloatyIcon />
-            </Link>
-
-            <div className='ml-5 mr-5 lg:ml-8 lg:mr-8 '>
-              <Drag categoryData={categories} />
+          <div className='flex flex-col gap-3'>
+            <div className='flex items-center justify-start gap-2'>
+              {categories.map((category) => (<Chip data={category} key={category.name} />))}
             </div>
-
             <img
               src={window.innerWidth < 768 ? bannermobile : banner}
               alt='Home Icon'
-              className='w-full lg:ml-8 lg:mr-8  h-[110px] lg:h-18 object-cover'
+              className='w-full h-[110px] lg:h-18 object-fill'
             />
-            <div className='flex flex-col w-full ml-5 mr-5 lg:ml-8 lg:mr-8'>
+            <div className='flex flex-col w-full'>
               {post.map((doc, index) => (
                 <Card key={index} {...doc} />
               ))}
             </div>
           </div>
+
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
 
@@ -174,23 +188,17 @@ const Card = ({
   );
 };
 
-function Drag({ categoryData }) {
-  const ref = useRef(); // We will use React useRef hook to reference the wrapping div:
-  const { events } = useDraggable(ref); // Now we pass the reference to the useDraggable hook:
+// function Drag({ categoryData }) {
+//   const ref = useRef(); // We will use React useRef hook to reference the wrapping div:
+//   const { events } = useDraggable(ref); // Now we pass the reference to the useDraggable hook:
 
-  return (
-    <div
-      className='flex max-w-[340px] no-scrollbar lg:max-w-full space-x-3 overflow-x-auto'
-      {...events}
-      ref={ref}
-    >
-      {categoryData.map((category) => {
-        return (
-          <span key={category.name} className='bg-blue-100 text-primary text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 flex-none'>
-            {category.name}
-          </span>
-        );
-      })}
-    </div>
-  );
-}
+//   return (
+//     <div
+//       className='flex max-w-[340px] no-scrollbar lg:max-w-full space-x-3 overflow-x-auto'
+//       {...events}
+//       ref={ref}
+//     >
+//       {categoryData.map((category) => (<Chip data={category} key={category.name} />))}
+//     </div>
+//   );
+// }
