@@ -11,7 +11,7 @@ import bgMobile from "@/assets/basic_bg.png";
 import { api } from '@/api/axios';
 import SnsButton from '@/ui/SnsButton';
 import Input from '@/ui/Input';
-import checkEmailType from '../utils/checkEmailType';
+import checkEmailType from '@/utils/checkEmailType';
 import Cookies from 'js-cookie';
 
 export default function Login() {
@@ -21,10 +21,9 @@ export default function Login() {
   const initValidate = { email: { msg: '', status: null } }
   const [validate, setValidate] = useState({ ...initValidate })
   /**
-   * 
-   * @param {'facebook' | 'kakao' | 'naver' | 'google' | 'email'} type 
+   * @param {'facebook' | 'kakao' | 'naver' | 'google'} type 
    */
-  async function login(type) {
+  async function snsLogin(type) {
     try {
       const res = await api.get(`oauth2/authorization/${type}`)
       console.log(res)
@@ -34,8 +33,8 @@ export default function Login() {
   }
 
   const navigate = useNavigate()
+
   /**
-   * 
    * @description 이메일 로그인
    */
   async function emailLogin() {
@@ -61,8 +60,8 @@ export default function Login() {
       }
 
       setValidate({ ...initValidate })
-      Cookies.remove('token')
-      Cookies.set('token', res.data.data.token, { expires: new Date(res.data.data.expiration), secure: true })
+      // Cookies.remove('token')
+      // Cookies.set('token', res.data.data.token, { expires: new Date(res.data.data.expiration), secure: true })
       navigate('/index')
     } catch (error) {
       console.error(error)
@@ -73,25 +72,25 @@ export default function Login() {
     {
       label: '페이스북 로그인',
       className: 'bg-positive text-white',
-      onClick: () => login('facebook'),
+      onClick: () => snsLogin('facebook'),
       src: facebook,
     },
     {
       label: '구글 로그인',
       className: 'bg-white text-gray-900',
-      onClick: () => login('google'),
+      onClick: () => snsLogin('google'),
       src: google,
     },
     {
       label: '카카오 로그인',
       className: 'bg-kakao text-gray-900',
-      onClick: () => login('kakao'),
+      onClick: () => snsLogin('kakao'),
       src: kakao,
     },
     {
       label: '네이버 로그인',
       className: 'bg-naver text-white',
-      onClick: () => login('naver'),
+      onClick: () => snsLogin('naver'),
       src: naver,
     },
   ]
