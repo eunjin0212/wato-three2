@@ -1,6 +1,6 @@
-import { Card } from "./Card";
+import PostCard from "@/ui/PostCard";
 
-export const CardList = ({ items }) => {
+const PostList = ({ items }) => {
   // const high = [
   //   {
   //     disease_name: 'Gas Gangrene',
@@ -76,7 +76,7 @@ export const CardList = ({ items }) => {
       <div className="flex flex-wrap gap-[22px] pb-9">
         {high.length > 0 ? (
           high.map((item, index) => (
-            <Card
+            <PostCard
               className="bg-high border-highBorder border-[1.5px]"
               item={item}
               key={index}
@@ -91,7 +91,7 @@ export const CardList = ({ items }) => {
       <div className="flex flex-wrap gap-[22px] pb-9">
         {medium.length > 0 ? (
           medium.map((item, index) => (
-            <Card
+            <PostCard
               className="bg-medium border-mediumBorder border-[1.5px]"
               item={item}
               key={index}
@@ -106,7 +106,7 @@ export const CardList = ({ items }) => {
       <div className="flex flex-wrap gap-[22px] pb-9">
         {low.length > 0 ? (
           low.map((item, index) => (
-            <Card
+            <PostCard
               className="bg-low border-lowBorder border-[1.5px]"
               item={item}
               key={index}
@@ -120,3 +120,5 @@ export const CardList = ({ items }) => {
     </div>
   );
 };
+
+export default PostList

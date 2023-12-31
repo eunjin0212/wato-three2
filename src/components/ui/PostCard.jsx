@@ -1,5 +1,5 @@
-export const Card = ({ item, className, textColor }) => {
-  const { disease_name, emergency_nature, relevance, description, tags } = item;
+const PostCard = ({ item, className, textColor }) => {
+  const { disease_name, description, tags } = item;
 
   return (
     <div
@@ -25,3 +25,5 @@ export const Card = ({ item, className, textColor }) => {
     </div>
   );
 };
+
+export default PostCard
