@@ -1,7 +1,7 @@
 import logo from "@/assets/logo_w.png";
 import bg from "@/assets/basic_bg_pc.png";
 import bgMobile from "@/assets/basic_bg.png";
-import LinkButton from '@/components/ui/LinkButton';
+import LinkButton from '@/ui/LinkButton';
 
 export default function Started() {
   const links = [

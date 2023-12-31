@@ -4,7 +4,6 @@ import { useDraggable } from "react-use-draggable-scroll";
 
 import Menu from "@/components/Menu";
 import Carousel from "@/ui/Carousel";
-import { useNavigate } from "react-router-dom";
 import logo from "@/assets/logo.png";
 
 import korea from "@/assets/korea.png";
@@ -148,9 +147,8 @@ export default function Recommend() {
   );
 }
 
-function LogoTopbar({ title, alignLeft, nomenu }) {
+function LogoTopbar({ alignLeft, nomenu }) {
   const [selectedMenu, setSelectedMenu] = useState("홈");
-  const navigate = useNavigate();
 
   const handleMenuClick = (menu) => {
     setSelectedMenu(menu);
@@ -214,7 +212,6 @@ function LogoTopbar({ title, alignLeft, nomenu }) {
 }
 
 const Card = ({
-  id,
   categoryName,
   content,
   title,
@@ -263,7 +260,7 @@ const Card = ({
   );
 };
 
-function CardDrag({ data, tag, country, padding, formatDate }) {
+function CardDrag({ data, tag, country, formatDate }) {
   const ref = useRef(); // We will use React useRef hook to reference the wrapping div:
   const { events } = useDraggable(ref); // Now we pass the reference to the useDraggable hook:
 
