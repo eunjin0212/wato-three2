@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import LogoTopbar from "@/components/LogoTopbar";
 import axios from "axios";
 import { Link, useLocation, useParams } from "react-router-dom";
-
-import { useRef } from "react";
 import { useDraggable } from "react-use-draggable-scroll";
 
 import { useNavigate } from "react-router-dom";
 import backicon from "@/assets/back.png";
 
-import bubble from "@/assets/ico-comment-gray.svg";
+import bubble from "@/assets/ico_comment_gray.svg";
 import trash from "@/assets/trash-2.svg";
 import edit from "@/assets/edit.svg";
 
