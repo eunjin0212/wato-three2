@@ -11,18 +11,20 @@ import bannermobile from '@/assets/bannermobile.png';
 import Menu from '@/components/Menu';
 import LogoTopbar from '@/components/LogoTopbar';
 import FloatyIcon from '@/components/FloatyIcon';
-import { needHeaderApi, api } from '@/api/axios';
+import { api } from '@/api/axios';
 
 export default function Index() {
   const [categories] = useState([])
   const [post, setPost] = useState([])
   async function refreshToken() {
     try {
-      // const res = await needHeaderApi({
-      //   // Authorization: `Bearer ${Cookies.get('token')}`,
-      // }).post('auth/refresh')
       const res = await api.post('auth/refresh')
-      console.log(res.data)
+
+      if (!res.data.data) {
+        throw new Error()
+      }
+
+      Cookies.set('token', res.data.data.token, { expires: new Date(res.data.data.expiration), secure: true })
 
     } catch (error) {
       console.error(error)
@@ -31,9 +33,7 @@ export default function Index() {
 
   async function getPostList() {
     try {
-      const res = await needHeaderApi({
-        Authorization: `Bearer ${Cookies.get('token')}`,
-      }).get('main/post', {
+      const res = await api.get('main/post', {
         params: {
           filter: 'top',
           page: 1,
@@ -48,10 +48,10 @@ export default function Index() {
 
   const navigate = useNavigate()
   useEffect(() => {
-    // if (!Cookies.get('token')) {
-    //   navigate('/')
-    //   return;
-    // }
+    if (!Cookies.get('token')) {
+      navigate('/')
+      return;
+    }
     refreshToken();
     getPostList();
   }, []);

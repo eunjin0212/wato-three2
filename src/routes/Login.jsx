@@ -60,8 +60,8 @@ export default function Login() {
       }
 
       setValidate({ ...initValidate })
-      // Cookies.remove('token')
-      // Cookies.set('token', res.data.data.token, { expires: new Date(res.data.data.expiration), secure: true })
+      Cookies.remove('token')
+      Cookies.set('token', res.data.data.token, { expires: new Date(res.data.data.expiration), secure: true })
       navigate('/index')
     } catch (error) {
       console.error(error)

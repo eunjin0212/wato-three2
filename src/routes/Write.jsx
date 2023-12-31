@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
-import mouth from '@/assets/cate01.png';
-import { needHeaderApi } from '@/api/axios';
+// import mouth from '@/assets/cate01.png';
+import { api, needHeaderApi } from '@/api/axios';
 import Topbar from '@/ui/Topbar';
 import Select from '@/ui/Select';
 import Input from '@/ui/Input';
@@ -23,9 +22,7 @@ export default function Write() {
  */
   async function getContries() {
     try {
-      const res = await needHeaderApi({
-        Authorization: `Bearer ${Cookies.get('token')}`,
-      }).get('country')
+      const res = await api.get('country')
 
       setCountries(res.data.data)
     } catch (error) {
@@ -38,9 +35,7 @@ export default function Write() {
    */
   async function getCategories() {
     try {
-      const res = await needHeaderApi({
-        Authorization: `Bearer ${Cookies.get('token')}`,
-      }).get('main/category')
+      const res = await api.get('main/category')
 
       setCategories(res.data.data)
     } catch (error) {
@@ -62,24 +57,17 @@ export default function Write() {
     event.preventDefault()
     try {
       const requestData = {
-        title: title,
-        content: content,
-        country: selectedCountry.id,
-        category: selectedCategory.id,
+        title,
+        content,
+        country: selectedCountry,
+        category: selectedCategory,
       };
 
       const formData = new FormData()
-      formData.append('file', mouth)
-
-      formData.append(
-        'request',
-        new Blob([JSON.stringify(requestData)], { type: 'application/json' })
-      );
-
-      const res = await needHeaderApi({
-        Authorization: `Bearer ${Cookies.get('token')}`,
-        'Content-Type': 'multipart/form-data',
-      }).post('post', formData)
+      // formData.append('file', mouth)
+      const blob = new Blob([JSON.stringify(requestData)], { type: 'application/json' })
+      formData.append('request', blob);
+      const res = await needHeaderApi({ 'Content-Type': 'multipart/form-data' }).post('post', formData)
 
       if (!res.data.data) {
         throw new Error()
@@ -87,7 +75,7 @@ export default function Write() {
 
       navigate(-1);
     } catch (error) {
-      console.erro(error)
+      console.error(error)
     }
   }
 
@@ -96,6 +84,7 @@ export default function Write() {
       <div className='flex-1'>
         <Topbar title='글쓰기' />
         <form
+          method='POST'
           onSubmit={handleSubmit}
           className='flex flex-col gap-3 max-w-3xl px-5 mx-auto py-10 lg:px-8'
         >
@@ -145,12 +134,12 @@ export default function Write() {
 
           {/* Content Input */}
           <textarea
-            id='content'
             className='h-56 input'
             placeholder='내용을 입력해주세요.'
             value={content}
             onChange={(e) => setContent(e.target.value)}
             required
+            name='content'
           ></textarea>
           <button
             type='submit'
