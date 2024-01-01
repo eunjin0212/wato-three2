@@ -10,7 +10,9 @@ const Help = () => {
   async function getHelp() {
     try {
       const res = await api.get('faq')
-      setDocuments(res.data.data)
+      if (res.data.data) {
+        setDocuments(res.data.data)
+      }
     } catch (error) {
       console.error(error)
     }
