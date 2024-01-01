@@ -100,7 +100,7 @@ const Myinfo = () => {
       const res = await api.get('user/profile')
       setImg(res.data.data.profileImageUrl)
       convertFileReader(res.data.data.profileImageUrl ?? noImage)
-      setCountry(res.data.data.country.id)
+      setCountry(res.data.data.country?.id || '')
       setGender(res.data.data.gender)
       setJob(res.data.data.job)
       setNickname(res.data.data.nickname)
