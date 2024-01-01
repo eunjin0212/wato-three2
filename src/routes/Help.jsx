@@ -10,6 +10,7 @@ const Help = () => {
   async function getHelp() {
     try {
       const res = await api.get('faq')
+
       if (res.data.data) {
         setDocuments(res.data.data)
       }
@@ -26,7 +27,6 @@ const Help = () => {
       <div className="flex-1">
         <Topbar title='도움말' />
         <div className="max-w-3xl mx-auto py-10 flex">
-          <Menu />
           <div className="flex-1 ml-5 mr-5 lg:ml-8 lg:mr-8">
             {
               documents.length ? documents.map((doc, index) => (

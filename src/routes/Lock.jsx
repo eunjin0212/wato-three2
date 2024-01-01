@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { api } from '@/api/axios';
-import Menu from '@/components/Menu';
 import Topbar from '@/ui/Topbar';
 import Toggle from '@/ui/Toggle';
 import lockIcon from '@/assets/ico-lock.png';
@@ -29,7 +28,7 @@ const Lock = () => {
   async function getScreenLock() {
     try {
       const res = await api.get('')
-      setIsChecked(res.data.data)
+      // setIsChecked(res.data.data)
     } catch (error) {
       console.error(error)
     }
@@ -55,18 +54,15 @@ const Lock = () => {
     <div className='flex flex-col lg:flex-row bg-gray-100 min-h-screen'>
       <div className='flex-1'>
         <Topbar title='화면 잠금 설정' />
-        <div className='max-w-3xl mx-auto py-10 flex'>
-          <Menu />
-          <div className='flex-1 ml-5 mr-5 lg:ml-8 lg:mr-8'>
-            <div className='flex flex-col  items-center lg:px-20 text-center'>
-              <img src={lockIcon} alt='Alert Icon' />
-              <h2 className='text-xl font-regular py-4'>
-                화면 잠금시 앱을 실행할 때마다 비밀번호를 <br />
-                확인하며 보다 안전하게 서비스를 이용할 수 있습니다.
-              </h2>
-            </div>
-            <Item title='화면 잠그기' value={isChecked} onChange={handleScreenLock} />
+        <div className='flex flex-col max-w-3xl mx-auto px-5 py-10 lg:px-8'>
+          <div className='flex flex-col  items-center lg:px-20 text-center'>
+            <img src={lockIcon} alt='Alert Icon' />
+            <h2 className='text-xl font-regular py-4'>
+              화면 잠금시 앱을 실행할 때마다 비밀번호를 <br />
+              확인하며 보다 안전하게 서비스를 이용할 수 있습니다.
+            </h2>
           </div>
+          <Item title='화면 잠그기' value={isChecked} onChange={handleScreenLock} />
         </div>
       </div>
     </div>

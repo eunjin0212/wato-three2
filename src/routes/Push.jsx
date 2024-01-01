@@ -104,12 +104,10 @@ const Push = () => {
     <div className='flex flex-col lg:flex-row bg-gray-100 min-h-screen'>
       <div className='flex-1'>
         <Topbar title='알림 설정' />
-        <div className='max-w-3xl mx-auto py-10 flex'>
-          <div className='flex-1 ml-5 mr-5 lg:ml-8 lg:mr-8'>
-            {documents.map((doc, index) => (
-              <Item key={index} {...doc} />
-            ))}
-          </div>
+        <div className='flex flex-col max-w-3xl mx-auto px-5 py-10 lg:px-8'>
+          {documents.map((doc, index) => (
+            <Item key={index} {...doc} />
+          ))}
         </div>
       </div>
     </div>
