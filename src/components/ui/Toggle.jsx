@@ -1,11 +1,11 @@
 
-const Toggle = ({value, onChange}) => {
+const Toggle = ({ value, onChange, name }) => {
   return (
-    <label className='autoSaverSwitch relative inline-flex cursor-pointer select-none items-center'>
+    <label className='relative inline-flex cursor-pointer select-none items-center'>
       <input
         type='checkbox'
-        name='autoSaver'
-        className='sr-only'
+        className='hidden'
+        name={name}
         checked={value}
         onChange={onChange}
       />

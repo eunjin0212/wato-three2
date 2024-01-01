@@ -1,10 +1,9 @@
-
+import { useEffect, useState } from 'react';
+import { api } from '@/api/axios';
 import Menu from '@/components/Menu';
 import Topbar from '@/ui/Topbar';
 import Toggle from '@/ui/Toggle';
-import { api } from '@/api/axios';
 import lockIcon from '@/assets/ico-lock.png';
-import { useEffect, useState } from 'react';
 
 function Item({ title, value, onChange }) {
   return (
@@ -12,7 +11,7 @@ function Item({ title, value, onChange }) {
       <h2 className='text-xl font-medium'>{title}</h2>
       <div className='flex items-center'>
         <label className='flex cursor-pointer select-none items-center'>
-          <Toggle value={value} onChange={onChange} />
+          <Toggle value={value} onChange={onChange} name='lock' />
         </label>
       </div>
       <div className='absolute top-0 left-0 right-0 border-t border-gray-300'></div>
@@ -25,8 +24,8 @@ const Lock = () => {
   const [isChecked, setIsChecked] = useState(false);
 
   /**
- * @description 화면 잠금 설정
- */
+   * @description 화면 잠금 설정
+   */
   async function getScreenLock() {
     try {
       const res = await api.get('')
