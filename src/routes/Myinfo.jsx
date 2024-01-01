@@ -216,7 +216,12 @@ const Myinfo = () => {
               onBlur={onBlur}
             />
           ))}
-          <button type='submit'>내 정보 수정</button>
+          <button
+            type='submit'
+            className='w-full text-white bg-primary hover:bg-blue-800 font-bold rounded-lg text-xl px-5 py-4 mt-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none'
+          >
+            내 정보 수정
+          </button>
         </form>
         <div className='flex flex-row text-center items-center justify-center'>
           <button
