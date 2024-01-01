@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-// import { useDraggable } from 'react-use-draggable-scroll';
 import { useNavigate } from 'react-router';
 import Cookies from 'js-cookie';
 import korea from '@/assets/korea.png';
@@ -42,6 +41,11 @@ export default function Index() {
           size: 5
         }
       })
+
+      if (!res.data.data) {
+        throw new Error()
+      }
+
       setPost(res.data.data.list)
     } catch (error) {
       console.error(error)
@@ -51,6 +55,11 @@ export default function Index() {
   async function getCategoryList() {
     try {
       const res = await api.get('main/category')
+      
+      if (!res.data.data) {
+        throw new Error()
+      }
+
       setCategories(res.data.data)
     } catch (error) {
       console.error(error)
