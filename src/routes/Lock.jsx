@@ -41,11 +41,10 @@ const Lock = () => {
   }, [])
 
   /**
-   * @param {React.ChangeEvent<HTMLInputElement>} event
    * @description 화면 잠금 api
    */
-  async function handleScreenLock(event) {
-    setIsChecked(event.target.value)
+  async function handleScreenLock() {
+    setIsChecked((prev) => !prev)
     try {
       const res = await api.put('')
     } catch (error) {
