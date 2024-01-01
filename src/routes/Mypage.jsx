@@ -9,7 +9,7 @@ import setting from '@/assets/ico-setting.svg';
 import notice from '@/assets/ico-notice.svg';
 import customer from '@/assets/ico-customer.png';
 import help from '@/assets/ico-help.svg';
-import chevronRight from '@/assets/ico-arrow-right.png';
+import chevronRight from '@/assets/ico_arrow_right.png';
 
 const documents1 = [
   {
