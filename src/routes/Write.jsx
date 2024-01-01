@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import mouth from '@/assets/cate01.png';
 import { api, needHeaderApi } from '@/api/axios';
 import Topbar from '@/ui/Topbar';
 import Select from '@/ui/Select';
@@ -50,7 +49,7 @@ export default function Write() {
   }, []);
 
   /**
-   * @param {SubmitEvent} event
+   * @param {React.FormEvent<HTMLFormElement>} event
    * @description 게시판 글쓰기
    */
   async function handleSubmit(event) {

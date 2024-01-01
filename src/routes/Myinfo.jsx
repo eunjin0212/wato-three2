@@ -122,7 +122,8 @@ const Myinfo = () => {
   const navigate = useNavigate();
 
   /**
-   * @param {React.FormEvent<HTMLFormElement>} event 
+   * @param {React.FormEvent<HTMLFormElement>} event
+   * @description 내정보 변경
    */
   async function handleSubmit(event) {
     event.preventDefault()
