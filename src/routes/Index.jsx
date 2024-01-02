@@ -18,20 +18,6 @@ export default function Index() {
   const [categories, setCategories] = useState([])
   const [post, setPost] = useState([])
 
-  async function refreshToken() {
-    try {
-      const res = await api.post('auth/refresh')
-
-      if (!res.data.data) {
-        throw new Error()
-      }
-
-      Cookies.set('token', res.data.data.token, { expires: new Date(res.data.data.expiration), secure: true })
-
-    } catch (error) {
-      console.error(error)
-    }
-  }
 
   async function getPostList() {
     try {
@@ -64,7 +50,7 @@ export default function Index() {
       return;
     }
 
-    refreshToken()
+    // refreshToken()
     getPostList()
     getCategoryList()
 

@@ -7,7 +7,7 @@ const apiToken = Cookies.get('token');
 
 // FIXME: 서버에서 주는 토큰으로 변경 필요
 const tempToken = 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJXYXRvIiwiaWF0IjoxNzAzNTA3NTQ4LCJleHAiOjE3MDQxMTIzNDgsInN1YiI6IjIiLCJyb2xlIjoiVVNFUiJ9.fCQTepCszUwicPYzoGNGpoMDTzA7JDu2pBluhqMyei8'
-axios.defaults.headers.common['Authorization'] = `Bearer ${tempToken}`;
+axios.defaults.headers.common['Authorization'] = `Bearer ${apiToken}`;
 
 /**
  * @type {Axios} api
