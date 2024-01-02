@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-// import { useDraggable } from 'react-use-draggable-scroll';
 import { useNavigate } from 'react-router';
 import Cookies from 'js-cookie';
 import korea from '@/assets/korea.png';
@@ -13,11 +12,27 @@ import LogoTopbar from '@/components/LogoTopbar';
 import FloatyIcon from '@/components/FloatyIcon';
 import Chip from '@/ui/Chip';
 import { api } from '@/api/axios';
+import formatDate from '@/utils/formatDate';
 
 export default function Index() {
   const [categories, setCategories] = useState([])
   const [post, setPost] = useState([])
 
+  // eslint-disable-next-line no-unused-vars
+  async function refreshToken() {
+    try {
+      const res = await api.post('auth/refresh')
+
+      if (!res.data.data) {
+        throw new Error()
+      }
+
+      Cookies.set('token', res.data.data.token, { expires: new Date(res.data.data.expiration), secure: true })
+
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   async function getPostList() {
     try {
@@ -28,6 +43,11 @@ export default function Index() {
           size: 5
         }
       })
+
+      if (!res.data.data) {
+        throw new Error()
+      }
+
       setPost(res.data.data.list)
     } catch (error) {
       console.error(error)
@@ -37,6 +57,11 @@ export default function Index() {
   async function getCategoryList() {
     try {
       const res = await api.get('main/category')
+
+      if (!res.data.data) {
+        throw new Error()
+      }
+
       setCategories(res.data.data)
     } catch (error) {
       console.error(error)
@@ -98,18 +123,6 @@ const Card = ({
   commentCount,
   nickname,
 }) => {
-  function formatDate(inputDate) {
-    const date = new Date(inputDate);
-
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-
-    return `${year}.${month}.${day} ${hours}:${minutes}`;
-  }
-
   return (
     <Link to={`/indexdetail/${id}`}>
       <div className={`w-full pb-4`}>

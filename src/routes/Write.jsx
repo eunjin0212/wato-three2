@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import mouth from '@/assets/cate01.png';
 import { api, needHeaderApi } from '@/api/axios';
 import Topbar from '@/ui/Topbar';
 import Select from '@/ui/Select';
 import Input from '@/ui/Input';
+import getContries from '@/modules/getContries';
 
 export default function Write() {
   const navigate = useNavigate();
@@ -16,19 +16,6 @@ export default function Write() {
 
   const [countries, setCountries] = useState([]);
   const [categories, setCategories] = useState([]);
-
-  /**
- * @description 게시판 국가
- */
-  async function getContries() {
-    try {
-      const res = await api.get('country')
-
-      setCountries(res.data.data)
-    } catch (error) {
-      console.error(error)
-    }
-  }
 
   /**
    * @description 게시판 카테고리
@@ -44,13 +31,15 @@ export default function Write() {
   }
 
   useEffect(() => {
-    getContries()
+    getContries().then((res) => {
+      setCountries(res)
+    })
     getCategories();
     return () => { };
   }, []);
 
   /**
-   * @param {SubmitEvent} event
+   * @param {React.FormEvent<HTMLFormElement>} event
    * @description 게시판 글쓰기
    */
   async function handleSubmit(event) {
