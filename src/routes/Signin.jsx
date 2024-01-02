@@ -48,6 +48,7 @@ const Signin = () => {
         gender,
         yearOfBirth,
         job,
+        country,
       })
 
       if (!res.data.data) {
@@ -206,6 +207,8 @@ const Signin = () => {
       value: country,
       name: 'country',
       placeholder: '국가을 선택해주세요.',
+      optionValue: 'id',
+      optionLabel: 'name',
       onChange: (e) => setCountry(e.target.value)
     },
   ]
@@ -255,7 +258,7 @@ const Signin = () => {
               inputClass='h-14'
             />
           ))}
-          {selects.map(({ options, value, name, onChange, placeholder }) => (
+          {selects.map(({ options, value, name, onChange, placeholder, optionValue, optionLabel }) => (
             <Select
               key={name}
               options={options}
@@ -265,6 +268,8 @@ const Signin = () => {
               required
               className='h-14'
               onChange={onChange}
+              optionValue={optionValue}
+              optionLabel={optionLabel}
             />
           ))}
           <button
