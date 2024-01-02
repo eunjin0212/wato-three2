@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { api } from '@/api/axios';
 import backicon from '@/assets/back.png';
 import bubble from '@/assets/ico_comment_gray.svg';
 import trash from '@/assets/trash-2.svg';
@@ -18,111 +18,74 @@ export default function Terms() {
   const [data, setData] = useState([]);
   const [commentData, setCommentData] = useState([]);
   const [comment, setComment] = useState('');
-  const [update, setUpdate] = useState(false);
 
-  useEffect(() => {
-    getData();
-
-    return () => {};
-  }, [update]);
-
-  const getData = () => {
-    const authToken =
-      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaXNzIjoiV2F0byIsImlhdCI6MTcwMzAwMDc0NCwiZXhwIjoxNzAzNjA1NTQ0fQ.6WSafHxzscQnUijReCvQiliovFHTDR6jzDJ6EhrxCJE';
-
-    const endpoint = 'https://katalk.store/api/';
-
+  async function getPostDetail() {
     // 게시글 fetch
-    axios
-      .get(`${endpoint}post/${id}`, {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
+    try {
+      const res = await api.get(`post/${id}`, {
+        content: comment,
       })
-      .then((response) => {
-        console.log(response.data);
-        setData(response.data.data);
+      setData(res.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function getComment() {
+    // 댓글 fetch
+    try {
+      const res = await api.get(`post/${id}/comment`, {
+        content: comment,
       })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+      setCommentData(res.data.data.list);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
-    // 게시글의 댓글 fetch
-    axios
-      .get(`${endpoint}post/${id}/comment`, {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      })
-      .then((response) => {
-        console.log('Comment Response:', response.data.data.list);
-        setCommentData(response.data.data.list);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  };
+  function init() {
+    getComment();
+    getPostDetail();
+  }
 
-  const onCreateComment = (event) => {
-    event.preventDefault();
-
-    console.log('onCreateComment');
-    const authToken =
-      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaXNzIjoiV2F0byIsImlhdCI6MTcwMzAwMDc0NCwiZXhwIjoxNzAzNjA1NTQ0fQ.6WSafHxzscQnUijReCvQiliovFHTDR6jzDJ6EhrxCJE';
-
-    const endpoint = 'https://katalk.store/api/';
-
+  async function onCreateComment(event) {
     // 댓글 작성
-    axios
-      .post(
-        `${endpoint}post/${id}/comment`,
-        {
-          content: comment,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      )
-      .then((response) => {
-        setUpdate(!update);
-        console.log('Comment created successfully:', response.data);
+    event.preventDefault();
+    try {
+      const res = await api.post(`post/${id}/comment`, {
+        content: comment,
       })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  };
 
-  const onDeleteComment = (commentId) => {
-    console.log('onDeleteComment', commentId);
-    const authToken =
-      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaXNzIjoiV2F0byIsImlhdCI6MTcwMzAwMDc0NCwiZXhwIjoxNzAzNjA1NTQ0fQ.6WSafHxzscQnUijReCvQiliovFHTDR6jzDJ6EhrxCJE';
+      if (res.data.data) {
+        init();
+      }
 
-    const endpoint = 'https://katalk.store/api/';
+      setComment('')
+    } catch (error) {
+      console.error(error);
 
+    }
+  }
+
+  async function onDeleteComment(commentId) {
     // 댓글 삭제
-    axios
-      .delete(`${endpoint}post/${id}/comment`, {
-        data: {
-          commentId: commentId,
-        },
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-          'Content-Type': 'application/json',
-        },
+    try {
+      const res = await api.delete(`post/${id}/comment`, {
+        commentId: commentId,
       })
-      .then((response) => {
-        setUpdate(!update);
-        console.log('Comment deleted successfully:', response.data);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  };
+
+      if (res.data.data) {
+        init();
+      }
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   useEffect(() => {
+    init();
+
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768); // Set your breakpoint as needed
     };
@@ -231,32 +194,22 @@ export default function Terms() {
 function Topbar({ alignLeft, formatDate, data, id }) {
   const navigate = useNavigate();
 
-  const onDeletePost = (postId) => {
-    console.log('onDeleteComment', postId);
-    const authToken =
-      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaXNzIjoiV2F0byIsImlhdCI6MTcwMzAwMDc0NCwiZXhwIjoxNzAzNjA1NTQ0fQ.6WSafHxzscQnUijReCvQiliovFHTDR6jzDJ6EhrxCJE';
-
-    const endpoint = 'https://katalk.store/api/';
-
+  async function onDeletePost(postId) {
     // 게시글 삭제
-    axios
-      .delete(`${endpoint}post`, {
+    try {
+      const res = await api.delete('post', {
         data: {
           postId: postId,
         },
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-          'Content-Type': 'application/json',
-        },
       })
-      .then((response) => {
-        console.log('Comment deleted successfully:', response.data);
+
+      if (res.data.data) {
         navigateBack();
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  };
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const navigateBack = () => {
     navigate(-1);
@@ -275,9 +228,8 @@ function Topbar({ alignLeft, formatDate, data, id }) {
             onClick={navigateBack}
           />
           <h1
-            className={`text-md font-semibold ml-[60px] lg:text-lg lg:ml-[80px] ${
-              alignLeft ? 'text-left ml-20' : ''
-            }`}
+            className={`text-md font-semibold ml-[60px] lg:text-lg lg:ml-[80px] ${alignLeft ? 'text-left ml-20' : ''
+              }`}
           >
             {data?.title}
           </h1>
@@ -293,7 +245,7 @@ function Topbar({ alignLeft, formatDate, data, id }) {
               src={edit}
               alt='Alert Icon'
               className='w-5 ml-2'
-              // onClick={() => onEdit()}
+            // onClick={() => onEdit()}
             />
           </Link>
           <img

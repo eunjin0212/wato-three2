@@ -22,4 +22,4 @@ import checkEmailType from '@/utils/checkEmailType';
     // }
   }
 
-  export default checkTypoValidation
+export default checkTypoValidation
