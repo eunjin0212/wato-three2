@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { api, needHeaderApi } from '@/api/axios';
 import { useNavigate } from "react-router";
 import Cookies from 'js-cookie';
@@ -9,6 +9,7 @@ import Input from '@/ui/Input';
 import Select from '@/ui/Select';
 import replaceBirthDay from '@/utils/replaceBirthDay';
 import checkTypoValidation from '@/utils/checkValidation';
+import getContries from '@/modules/getContries';
 import checkDuplicateNickname from '@/modules/checkDuplocateNickname';
 
 const Signin = () => {
@@ -19,6 +20,8 @@ const Signin = () => {
   const [yearOfBirth, setYearOfBirth] = useState('');
   const [job, setJob] = useState('');
   const [code, setCode] = useState('');
+  const [country, setCountry] = useState('')
+  const [countries, setCountries] = useState([]);
   const [checkCode, setCheckCode] = useState('');
   const [authKey, setAuthKey] = useState('');
   const initValidate = { email: { msg: '', status: null }, code: { msg: '', status: null }, nickname: { msg: '', status: null } }
@@ -131,7 +134,7 @@ const Signin = () => {
         setEmail(e.target.value)
       },
       onClick: () => checkDuplicateEmail(),
-      placeholder: '이메일을 입력하세요.',
+      placeholder: '이메일을 입력해주세요.',
       name: 'email',
       display: true,
       buttonLabel: '인증코드 발송',
@@ -190,6 +193,28 @@ const Signin = () => {
     }
   ]
 
+  const selects = [
+    {
+      options: ['여자', '남자'],
+      value: gender,
+      name: 'gender',
+      placeholder: '성별을 선택해주세요.',
+      onChange: (e) => setGender(e.target.value)
+    },
+    {
+      options: countries,
+      value: country,
+      name: 'country',
+      placeholder: '국가을 선택해주세요.',
+      onChange: (e) => setCountry(e.target.value)
+    },
+  ]
+  useEffect(() => {
+    getContries().then((res) => {
+      setCountries(res)
+    })
+    return () => { };
+  }, []);
   return (
     <div className="flex flex-col lg:flex-row bg-primary min-h-screen">
       <div className="flex-1 px-10 flex flex-col text-center justify-between items-center">
@@ -230,15 +255,18 @@ const Signin = () => {
               inputClass='h-14'
             />
           ))}
-          <Select
-            options={['여자', '남자']}
-            value={gender}
-            name='gender'
-            placeholder='성별을 입력하세요'
-            required
-            className='h-14'
-            onChange={(e) => setGender(e.target.value)}
-          />
+          {selects.map(({ options, value, name, onChange, placeholder }) => (
+            <Select
+              key={name}
+              options={options}
+              value={value}
+              name={name}
+              placeholder={placeholder}
+              required
+              className='h-14'
+              onChange={onChange}
+            />
+          ))}
           <button
             type='submit'
             className='w-full me-2 button'

@@ -4,6 +4,7 @@ import { api, needHeaderApi } from '@/api/axios';
 import Topbar from '@/ui/Topbar';
 import Select from '@/ui/Select';
 import Input from '@/ui/Input';
+import getContries from '@/modules/getContries';
 
 export default function Write() {
   const navigate = useNavigate();
@@ -15,19 +16,6 @@ export default function Write() {
 
   const [countries, setCountries] = useState([]);
   const [categories, setCategories] = useState([]);
-
-  /**
- * @description 게시판 국가
- */
-  async function getContries() {
-    try {
-      const res = await api.get('country')
-
-      setCountries(res.data.data)
-    } catch (error) {
-      console.error(error)
-    }
-  }
 
   /**
    * @description 게시판 카테고리
@@ -43,7 +31,9 @@ export default function Write() {
   }
 
   useEffect(() => {
-    getContries()
+    getContries().then((res) => {
+      setCountries(res)
+    })
     getCategories();
     return () => { };
   }, []);

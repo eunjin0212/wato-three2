@@ -18,6 +18,7 @@ export default function Index() {
   const [categories, setCategories] = useState([])
   const [post, setPost] = useState([])
 
+  // eslint-disable-next-line no-unused-vars
   async function refreshToken() {
     try {
       const res = await api.post('auth/refresh')
@@ -56,7 +57,7 @@ export default function Index() {
   async function getCategoryList() {
     try {
       const res = await api.get('main/category')
-      
+
       if (!res.data.data) {
         throw new Error()
       }
@@ -74,7 +75,7 @@ export default function Index() {
       return;
     }
 
-    refreshToken()
+    // refreshToken()
     getPostList()
     getCategoryList()
 
