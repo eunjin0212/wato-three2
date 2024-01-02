@@ -7,6 +7,7 @@ import Carousel from "@/ui/Carousel";
 import logo from "@/assets/logo.png";
 
 import korea from "@/assets/korea.png";
+import formatDate from '../utils/formatDate';
 
 export default function Recommend() {
   const [isMobile, setIsMobile] = useState(false);
@@ -72,18 +73,6 @@ export default function Recommend() {
         console.error("Error:", error);
       });
   };
-
-  function formatDate(inputDate) {
-    const date = new Date(inputDate);
-
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-
-    return `${year}.${month}.${day} ${hours}:${minutes}`;
-  }
 
   return (
     <div className="flex flex-col lg:flex-row bg-gray-100 min-h-screen">

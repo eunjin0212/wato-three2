@@ -12,6 +12,7 @@ import LogoTopbar from '@/components/LogoTopbar';
 import FloatyIcon from '@/components/FloatyIcon';
 import Chip from '@/ui/Chip';
 import { api } from '@/api/axios';
+import formatDate from '@/utils/formatDate';
 
 export default function Index() {
   const [categories, setCategories] = useState([])
@@ -121,18 +122,6 @@ const Card = ({
   commentCount,
   nickname,
 }) => {
-  function formatDate(inputDate) {
-    const date = new Date(inputDate);
-
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-
-    return `${year}.${month}.${day} ${hours}:${minutes}`;
-  }
-
   return (
     <Link to={`/indexdetail/${id}`}>
       <div className={`w-full pb-4`}>
