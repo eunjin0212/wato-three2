@@ -1,9 +1,12 @@
 /**
  * @param {string} inputDate 
- * @returns {string}
+ * @returns {string | undefined}
  * @description 날짜 포맷팅
  */
 const formatDate = (inputDate) => {
+  if (typeof inputDate !== 'string') {
+    return inputDate
+  }
   const date = new Date(inputDate);
 
   const year = date.getFullYear();
