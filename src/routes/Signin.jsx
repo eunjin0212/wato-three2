@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { api, needHeaderApi } from '@/api/axios';
 import { useNavigate } from "react-router";
 import Cookies from 'js-cookie';
@@ -8,7 +8,9 @@ import bgMobile from "@/assets/basic_bg.png";
 import Input from '@/ui/Input';
 import Select from '@/ui/Select';
 import replaceBirthDay from '@/utils/replaceBirthDay';
-import checkEmailType from '@/utils/checkEmailType';
+import checkTypoValidation from '@/utils/checkValidation';
+import getContries from '@/modules/getContries';
+import checkDuplicateNickname from '@/modules/checkDuplocateNickname';
 
 const Signin = () => {
   const [email, setEmail] = useState('');
@@ -18,6 +20,8 @@ const Signin = () => {
   const [yearOfBirth, setYearOfBirth] = useState('');
   const [job, setJob] = useState('');
   const [code, setCode] = useState('');
+  const [country, setCountry] = useState('')
+  const [countries, setCountries] = useState([]);
   const [checkCode, setCheckCode] = useState('');
   const [authKey, setAuthKey] = useState('');
   const initValidate = { email: { msg: '', status: null }, code: { msg: '', status: null }, nickname: { msg: '', status: null } }
@@ -25,7 +29,7 @@ const Signin = () => {
 
   const navigate = useNavigate()
   /**
-   * @param {HTMLFormElement} event
+   * @param {React.FormEvent<HTMLFormElement>} event
    * @description 이메일 회원가입
    */
   async function handleSubmit(event) {
@@ -44,6 +48,7 @@ const Signin = () => {
         gender,
         yearOfBirth,
         job,
+        country,
       })
 
       if (!res.data.data) {
@@ -78,28 +83,6 @@ const Signin = () => {
   }
 
   /**
-   * @param {'email' | 'birth' | 'nickname'} type 
-   * @param {string | undefined} value 
-   * @returns {boolean} 유효성 검사 체크 통과 X -> true
-   */
-  function checkTypoValidation(type, value) {
-    if (type === 'email') {
-      return checkEmailType(email)
-    }
-
-    if (type === 'nickname') {
-      return value.length > 6
-    }
-
-    // if (type === 'birth') {
-    //   const dateRegex = new RegExp(/^\d{4}-\d{2}-\d{2}$/)
-    //   const dateNumberRegex = new RegExp(/^(19|20)\d{2}-(0[1-9]|1[0-2])-([0-2][1-9]|3[01])$/)
-
-    //   return (!dateRegex.test(value) || !dateNumberRegex.test(value))
-    // }
-  }
-
-  /**
    * @description 이메일 인증 코드 발송
    */
   async function sendEmailAuthCode() {
@@ -123,7 +106,7 @@ const Signin = () => {
    * @description 이메일 중복체크
    */
   async function checkDuplicateEmail() {
-    if (checkTypoValidation('email')) {
+    if (checkTypoValidation('email', email)) {
       setValidate((prev) => ({ ...prev, email: { msg: '올바른 이메일을 입력해주세요.', status: false } }))
       return
     }
@@ -142,28 +125,6 @@ const Signin = () => {
     }
   }
 
-  /**
-   * @description 닉네임 중복체크
-   */
-  async function checkDuplicateNickname() {
-    if (checkTypoValidation('nickname', nickname)) {
-      setValidate((prev) => ({ ...prev, nickname: { msg: '올바른 닉네임을 입력해주세요.', status: false } }))
-      return;
-    }
-    try {
-      const res = await api.get(`signup/check/nickname?nickname=${nickname}`)
-
-      if (res.data.message !== 'Success') {
-        throw new Error(res.data.message)
-      }
-
-      setValidate((prev) => ({ ...prev, nickname: { msg: '사용할 수 있는 닉네임 입니다.', status: true } }))
-    } catch (error) {
-      console.error(error)
-      setValidate((prev) => ({ ...prev, nickname: { msg: '닉네임 중복체크에 실패했습니다.', status: false } }))
-    }
-  }
-
   const validateInputs = [
     {
       type: 'text',
@@ -174,7 +135,7 @@ const Signin = () => {
         setEmail(e.target.value)
       },
       onClick: () => checkDuplicateEmail(),
-      placeholder: '이메일을 입력하세요',
+      placeholder: '이메일을 입력해주세요.',
       name: 'email',
       display: true,
       buttonLabel: '인증코드 발송',
@@ -184,7 +145,7 @@ const Signin = () => {
       value: code,
       onChange: (e) => setCode(e.target.value),
       onClick: () => checkEmailCode(),
-      placeholder: '인증코드를 입력해주세요',
+      placeholder: '인증코드를 입력해주세요.',
       name: 'code',
       display: checkCode,
       buttonLabel: '인증코드 확인'
@@ -192,9 +153,14 @@ const Signin = () => {
     {
       type: 'text',
       value: nickname,
-      onChange: (e) => setNickname(e.target.value),
-      onClick: () => checkDuplicateNickname(),
-      placeholder: '닉네임을 입력하세요',
+      onChange: (e) => {
+        setValidate((prev) => ({ ...prev, nickname: initValidate.nickname }))
+        setNickname(e.target.value)
+      },
+      onClick: () => checkDuplicateNickname(nickname).then((nickname) => {
+        setValidate((prev) => ({ ...prev, nickname }))
+      }),
+      placeholder: '닉네임을 입력해주세요.',
       name: 'nickname',
       display: true,
       buttonLabel: '중복 확인'
@@ -206,7 +172,7 @@ const Signin = () => {
       type: 'password',
       value: password,
       onChange: (e) => setPassword(e.target.value),
-      placeholder: '비밀번호를 입력하세요',
+      placeholder: '비밀번호를 입력해주세요.',
       required: true,
       name: 'password',
     },
@@ -214,7 +180,7 @@ const Signin = () => {
       type: 'text',
       value: yearOfBirth,
       onChange: (e) => setYearOfBirth(() => replaceBirthDay(e.target.value)),
-      placeholder: '생년월일을 입력하세요 (YYYY-MM-DD)',
+      placeholder: '생년월일을 입력해주세요. (YYYY-MM-DD)',
       required: true,
       name: 'yearOfBirth',
     },
@@ -222,12 +188,36 @@ const Signin = () => {
       type: 'text',
       value: job,
       onChange: (e) => setJob(e.target.value),
-      placeholder: '직업을 입력하세요',
+      placeholder: '직업을 입력해주세요.',
       required: true,
       name: 'job',
     }
   ]
 
+  const selects = [
+    {
+      options: ['여자', '남자'],
+      value: gender,
+      name: 'gender',
+      placeholder: '성별을 선택해주세요.',
+      onChange: (e) => setGender(e.target.value)
+    },
+    {
+      options: countries,
+      value: country,
+      name: 'country',
+      placeholder: '국가을 선택해주세요.',
+      optionValue: 'id',
+      optionLabel: 'name',
+      onChange: (e) => setCountry(e.target.value)
+    },
+  ]
+  useEffect(() => {
+    getContries().then((res) => {
+      setCountries(res)
+    })
+    return () => { };
+  }, []);
   return (
     <div className="flex flex-col lg:flex-row bg-primary min-h-screen">
       <div className="flex-1 px-10 flex flex-col text-center justify-between items-center">
@@ -246,9 +236,14 @@ const Signin = () => {
                 validate={validate[name]}
                 inputClass='h-14'
               />
-              {buttonLabel && <button type='button' className='w-[7.5rem] h-14 ml-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-lg rounded-lg p-2.5 border' onClick={onClick}>
-                {buttonLabel}
-              </button>}
+              {buttonLabel
+                && <button
+                  type='button'
+                  className='w-[7.5rem] h-14 ml-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-lg rounded-lg p-2.5 border'
+                  onClick={onClick}
+                >
+                  {buttonLabel}
+                </button>}
             </div>
           ))}
           {inputs.map(({ type, value, onChange, placeholder, name }, idx) => (
@@ -263,15 +258,20 @@ const Signin = () => {
               inputClass='h-14'
             />
           ))}
-          <Select
-            options={['여자', '남자']}
-            value={gender}
-            name='gender'
-            placeholder='성별을 입력하세요'
-            required
-            className='h-14'
-            onChange={(e) => setGender(e.target.value)}
-          />
+          {selects.map(({ options, value, name, onChange, placeholder, optionValue, optionLabel }) => (
+            <Select
+              key={name}
+              options={options}
+              value={value}
+              name={name}
+              placeholder={placeholder}
+              required
+              className='h-14'
+              onChange={onChange}
+              optionValue={optionValue}
+              optionLabel={optionLabel}
+            />
+          ))}
           <button
             type='submit'
             className='w-full me-2 button'
