@@ -14,7 +14,7 @@ const BackButton = ({link = -1}) => {
     <img
       src={backicon}
       alt='back Icon'
-      className='absolute left-5 top-5 cursor-pointer'
+      className='absolute left-5 top-5 cursor-pointer block lg:hidden'
       onClick={() => navigate(link)}
     />
   )
