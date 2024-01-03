@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
  * @property {string} type
  * @property {string} placeholder
  * @property {undefined | () => void} onBlur
+ * @property {undefined | () => void} onKeyDown
  * @property {() => void} onChange
  * @property {{ msg: string; status: boolean | null } | undefined} validate
  * @property {boolean} required
@@ -18,7 +19,7 @@ import { useEffect, useState } from 'react'
 /**
  * @param {Props} props
  */
-const Input = ({ name, value, type, placeholder, onBlur, onChange, onKeyUp, validate, required, className, inputClass }) => {
+const Input = ({ name, value, type, placeholder, onBlur, onChange, onKeyDown, validate, required, className, inputClass }) => {
   const [validation, setValidation] = useState(validate)
 
   useEffect(() => {
@@ -37,7 +38,7 @@ const Input = ({ name, value, type, placeholder, onBlur, onChange, onKeyUp, vali
         placeholder={placeholder}
         required={required}
         name={name}
-        onKeyUp={onKeyUp}
+        onKeyDown={onKeyDown}
       />
       {
         (validation?.status !== null && validation !== undefined) &&

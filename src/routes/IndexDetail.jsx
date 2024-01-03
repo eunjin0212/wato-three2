@@ -11,7 +11,7 @@ import formatDate from '@/utils/formatDate';
 import LogoTopbar from '@/components/LogoTopbar';
 import Chip from '@/components/ui/Chip';
 import Input from '@/ui/Input';
-import checkCountryImg from '../utils/checkCountryImg';
+import checkCountryImg from '@/utils/checkCountryImg';
 
 export default function Terms() {
   const { id } = useParams();
@@ -92,6 +92,11 @@ export default function Terms() {
 
   async function onEditComment(commentId) {
     // 댓글 수정
+    if (!isEditable[commentId]) {
+      setIsEditable({ [commentId]: true })
+      return
+    }
+
     try {
       const res = await api.put(`post/${commentId}/comment`, {
         commentId: commentId,
@@ -142,15 +147,6 @@ export default function Terms() {
         <div className='max-w-5xl mx-auto py-10 flex'>
           <div className='flex-1 mx-5 lg:mx-8'>
             <div className='space-y-10'>
-              <ul className='flex flex-col'>
-                <li className='text-sm lg:text-md font-semibold flex flex-nowrap items-center gap-2 border-b pb-3 mb-3'>
-                  <img src={checkCountryImg(data?.countryName)} alt='profileImageUrl' className='w-6 h-6 rounded-full' />
-                  <span className='whitespace-nowrap block'>
-                    {data?.nickname}
-                  </span>
-                </li>
-                <li className='text-md lg:text-md font-bold'>{data?.title}</li>
-              </ul>
               {/* <img src={detail} alt='Home Icon' className='mt-4 mb-4' /> */}
               <div
                 className='text-sm lg:text-md font-regular whitespace-pre-line px-2'
@@ -199,28 +195,27 @@ export default function Terms() {
                         placeholder='댓글을 입력해주세요.'
                         inputClass='h-14 bg-transparent dark:text-gray-900 text-sm'
                         required
-                        onKeyUp={(e) => {
-                          e.key === 'Enter' && onEditComment(item.id)
-                        }}
                         name={name}
-                      // validate={validate[name]}
+                        onKeyDown={(e) => {
+                          e.keyCode === 13 && onEditComment(item.id)
+                        }}
                       />
                     }
                     {
                       +Cookies.get('userId') === +item.userId && <div className='flex gap-3 ml-4'>
-                        {!isEditable[item.id] && <img
+                        <img
                           src={edit}
                           alt='Alert Icon'
-                          className='w-5'
+                          className='w-5 cursor-pointer'
                           onClick={() => {
                             setEditComment(item.content)
-                            setIsEditable({ [item.id]: true })
+                            onEditComment(item.id)
                           }}
-                        />}
+                        />
                         <img
                           src={trash}
                           alt='Alert Icon'
-                          className='w-5'
+                          className='w-5 cursor-pointer'
                           onClick={() => onDeleteComment(item.id)}
                         />
                       </div>
@@ -300,6 +295,13 @@ function Topbar({ alignLeft, formatDate, data, id }) {
         </div>
 
         <div className='flex flex-row justify-center items-center gap-3'>
+
+          <p className='text-sm lg:text-md font-semibold flex flex-nowrap items-center gap-2'>
+            <img src={checkCountryImg(data?.countryName)} alt='profileImageUrl' className='w-6 h-6 rounded-full' />
+            <span className='whitespace-nowrap block'>
+              {data?.nickname}
+            </span>
+          </p>
           <p className='text-xs text-gray-600 w-20 text-center lg:w-28 lg:text-sm'>
             {formatDate(data?.createDate)}
           </p>
@@ -311,13 +313,13 @@ function Topbar({ alignLeft, formatDate, data, id }) {
                 <img
                   src={edit}
                   alt='Alert Icon'
-                  className='w-5 ml-2'
+                  className='w-5 cursor-pointer'
                 />
               </Link>
               <img
                 src={trash}
                 alt='Alert Icon'
-                className='w-5 ml-2'
+                className='w-5 cursor-pointer'
                 onClick={() => onDeletePost(id)}
               />
             </>
