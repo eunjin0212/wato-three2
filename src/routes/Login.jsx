@@ -2,17 +2,16 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import Cookies from 'js-cookie';
-import logo from "@/assets/logo_w.png";
-import kakao from "@/assets/kakao.png";
-import emailIcon from "@/assets/email.png";
-import facebook from "@/assets/facebook.png";
-import naver from "@/assets/naver.png";
-import google from "@/assets/google.png";
-import bg from "@/assets/basic_bg_pc.png";
-import bgMobile from "@/assets/basic_bg.png";
+import logo from '@/assets/logo_w.png';
+import kakao from '@/assets/kakao.png';
+import emailIcon from '@/assets/email.png';
+import facebook from '@/assets/facebook.png';
+import naver from '@/assets/naver.png';
+import google from '@/assets/google.png';
 import { api } from '@/api/axios';
 import SnsButton from '@/ui/SnsButton';
 import Input from '@/ui/Input';
+import BackButton from '@/ui/BackButton';
 import checkEmailType from '@/utils/checkEmailType';
 import kakaoLogin from '@/modules/kakaoLogin';
 
@@ -32,7 +31,7 @@ export default function Login() {
         kakaoLogin().handleLogin()
         // https://katalk.store/api/login/outh2/code/kakao
         break;
-    
+
       default:
         break;
     }
@@ -71,11 +70,11 @@ export default function Login() {
         setValidate({ email: { msg: res.data.message, status: false } })
         throw new Error(res.data.message)
       }
-      
+
       axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.data.token}`;
       Cookies.set('token', res.data.data.token, { expires: new Date(res.data.data.expiration), secure: true })
-      
-      setValidate({ ...initValidate })      
+
+      setValidate({ ...initValidate })
       navigate('/index')
     } catch (error) {
       console.error(error)
@@ -85,34 +84,34 @@ export default function Login() {
   useEffect(() => {
     Cookies.remove('token')
     Cookies.remove('userId')
-    return () => {}
+    return () => { }
   }, [])
 
   const snsButtons = [
-    // {
-    //   label: '페이스북 로그인',
-    //   className: 'bg-positive text-white',
-    //   onClick: () => snsLogin('facebook'),
-    //   src: facebook,
-    // },
-    // {
-    //   label: '구글 로그인',
-    //   className: 'bg-white text-gray-900',
-    //   onClick: () => snsLogin('google'),
-    //   src: google,
-    // },
+    {
+      label: '페이스북 로그인',
+      className: 'bg-positive text-white',
+      onClick: () => snsLogin('facebook'),
+      src: facebook,
+    },
+    {
+      label: '구글 로그인',
+      className: 'bg-white text-gray-900',
+      onClick: () => snsLogin('google'),
+      src: google,
+    },
     {
       label: '카카오 로그인',
       className: 'bg-kakao text-gray-900',
       onClick: () => snsLogin('kakao'),
       src: kakao,
     },
-    // {
-    //   label: '네이버 로그인',
-    //   className: 'bg-naver text-white',
-    //   onClick: () => snsLogin('naver'),
-    //   src: naver,
-    // },
+    {
+      label: '네이버 로그인',
+      className: 'bg-naver text-white',
+      onClick: () => snsLogin('naver'),
+      src: naver,
+    },
   ]
 
   const emailInput = [
@@ -140,11 +139,14 @@ export default function Login() {
     },
   ]
 
+
   return (
-    <main className="flex flex-col bg-primary min-h-screen">
-      <section className="flex-1 px-10 flex flex-col text-center justify-between items-center">
-        <div className="flex flex-col gap-3 items-center lg:w-96 w-80 px-10">
-          <img src={logo} alt="Home Icon" className="my-40" />
+    <main className='flex flex-col bg-primary min-h-screen'>
+      <BackButton link='/' />
+      <section className='enter-section enter-bg-img'>
+        {/* <div className='flex flex-col gap-3 items-center lg:w-96 w-80 px-10'> */}
+        <img src={logo} alt='Home Icon' className='enter-logo' />
+        <div className='enter-item-wrapper mt-12'>
           {snsButtons.map(({ label, src, className, onClick }) => (
             <SnsButton
               key={label}
@@ -154,7 +156,7 @@ export default function Login() {
               onClick={onClick}
             />
           ))}
-          <form className='w-full flex flex-col gap-3 items-center'>
+          <form className='enter-item-wrapper'>
             {useEmail && <>
               {emailInput.map(({ type, value, onChange, placeholder, name, validate }, idx) =>
                 <Input
@@ -178,17 +180,7 @@ export default function Login() {
             />
           </form>
         </div>
-        <img
-          src={bg}
-          alt="Desktop Background"
-          className="w-auto hidden lg:block"
-        />
       </section>
-      <img
-        src={bgMobile}
-        alt="Mobile Background"
-        className="w-full block lg:hidden"
-      />
     </main>
   );
 }

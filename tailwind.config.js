@@ -43,6 +43,10 @@ export default {
       lineHeight: {
         "extra-tight": "1.1",
       },
+      backgroundImage: {
+        'enter-bg-img-pc': "url('/src/assets/basic_bg_pc.png')",
+        'enter-bg-img-mo': "url('/src/assets/basic_bg.png')",
+      }
     },
   },
   plugins: [],

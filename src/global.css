@@ -20,7 +20,19 @@
     @apply bg-white border text-gray-900 text-lg rounded-lg block p-2.5 dark:bg-gray-700 placeholder:text-gray-400 dark:text-white
   }
   .button {
-    @apply text-primary bg-white font-bold rounded-lg text-xl px-3 py-3 mt-3 mb-2 dark:bg-blue-500 dark:text-white focus:outline-none
+    @apply text-primary bg-white font-bold rounded-lg text-xl px-3 py-3 dark:bg-blue-500 dark:text-white focus:outline-none
+  }
+  .enter-section {
+    @apply flex-1 px-10 flex flex-col text-center items-center
+  }
+  .enter-bg-img {
+    @apply after:content-[''] after:-z-0 after:absolute after:bottom-0 after:lg:left-10 after:left-0 after:w-full after:lg:w-[calc(100%_-_5rem)] after:h-96 after:lg:bg-enter-bg-img-pc after:bg-enter-bg-img-mo after:bg-bottom after:bg-no-repeat after:bg-contain
+  }
+  .enter-item-wrapper {
+    @apply w-full lg:w-96 flex flex-col gap-3 items-center z-10
+  }
+  .enter-logo {
+    @apply mt-40 mb-8
   }
   .main {
     @apply flex flex-col lg:flex-row bg-gray-100 min-h-screen overflow-x-hidden

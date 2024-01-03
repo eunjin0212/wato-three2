@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import { api, needHeaderApi } from '@/api/axios';
-import { useNavigate } from "react-router";
+import { useNavigate } from 'react-router';
 import Cookies from 'js-cookie';
-import logo from "@/assets/logo_w.png";
-import bg from "@/assets/basic_bg_pc.png";
-import bgMobile from "@/assets/basic_bg.png";
+import logo from '@/assets/logo_w.png';
 import Input from '@/ui/Input';
 import Select from '@/ui/Select';
+import BackButton from '@/ui/BackButton';
 import replaceBirthDay from '@/utils/replaceBirthDay';
 import checkTypoValidation from '@/utils/checkValidation';
 import getContries from '@/modules/getContries';
@@ -222,16 +221,17 @@ const Signin = () => {
     return () => { };
   }, []);
   return (
-    <div className="flex flex-col lg:flex-row bg-primary min-h-screen">
-      <div className="flex-1 px-10 flex flex-col text-center justify-between items-center">
-        <img src={logo} alt="Home Icon" className="mt-40 mb-8" />
-        <form onSubmit={handleSubmit} className='w-96 flex flex-col gap-3'>
+    <main className='flex flex-col lg:flex-row bg-primary min-h-screen'>
+      <BackButton link='/' />
+      <section className='enter-section enter-bg-img'>
+        <img src={logo} alt='Home Icon' className='enter-logo' />
+        <form onSubmit={handleSubmit} className='enter-item-wrapper'>
           {validateInputs.map(({ type, value, onChange, onClick, placeholder, name, display, buttonLabel }, idx) => (
-            display && <div className='flex items-start' key={`${name}_${idx}`}>
+            display && <div className='flex w-full md:flex-row flex-col gap-2 items-start' key={`${name}_${idx}`}>
               <Input
                 type={type}
                 value={value}
-                className='flex-1'
+                className='md:flex-1 w-full'
                 onChange={onChange}
                 placeholder={placeholder}
                 required
@@ -242,7 +242,7 @@ const Signin = () => {
               {buttonLabel
                 && <button
                   type='button'
-                  className='w-[7.5rem] h-14 ml-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-lg rounded-lg p-2.5 border'
+                  className='w-full md:w-[7.5rem] h-14 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-lg rounded-lg p-2.5 border border-gray-600'
                   onClick={onClick}
                 >
                   {buttonLabel}
@@ -258,6 +258,7 @@ const Signin = () => {
               placeholder={placeholder}
               name={name}
               required
+              className='md:flex-1 w-full'
               inputClass='h-14'
             />
           ))}
@@ -282,18 +283,18 @@ const Signin = () => {
             회원가입
           </button>
         </form>
-        <img
+        {/* <img
           src={bg}
-          alt="Desktop Background"
-          className="w-auto hidden lg:block"
-        />
-      </div>
-      <img
+          alt='Desktop Background'
+          className='w-auto hidden lg:block'
+        /> */}
+      </section>
+      {/* <img
         src={bgMobile}
-        alt="Mobile Background"
-        className="w-full block lg:hidden"
-      />
-    </div>
+        alt='Mobile Background'
+        className='w-full block lg:hidden'
+      /> */}
+    </main>
   );
 }
 export default Signin
