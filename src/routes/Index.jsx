@@ -39,7 +39,7 @@ export default function Index() {
     try {
       const res = await api.get('main/post', {
         params: {
-          filter: 'top',
+          filter: 'home',
           page: 1,
           size: 5
         }
