@@ -172,6 +172,7 @@ const Myinfo = () => {
    */
   async function handleUnsubscribe() {
     try {
+      // eslint-disable-next-line no-unused-vars
       const res = await api.get()
     } catch (error) {
       console.error(error)

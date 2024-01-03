@@ -11,6 +11,7 @@ import formatDate from '@/utils/formatDate';
 import LogoTopbar from '@/components/LogoTopbar';
 import Chip from '@/components/ui/Chip';
 import Input from '@/ui/Input';
+import checkCountryImg from '../utils/checkCountryImg';
 
 export default function Terms() {
   const { id } = useParams();
@@ -139,12 +140,20 @@ export default function Terms() {
           id={id}
         />
         <div className='max-w-5xl mx-auto py-10 flex'>
-          <div className='flex-1'>
-            <div className='space-y-10 px-4'>
-              <h2 className='text-sm lg:text-md font-semibold'>{data?.title}</h2>
+          <div className='flex-1 mx-5 lg:mx-8'>
+            <div className='space-y-10'>
+              <ul className='flex flex-col'>
+                <li className='text-sm lg:text-md font-semibold flex flex-nowrap items-center gap-2 border-b pb-3 mb-3'>
+                  <img src={checkCountryImg(data?.countryName)} alt='profileImageUrl' className='w-6 h-6 rounded-full' />
+                  <span className='whitespace-nowrap block'>
+                    {data?.nickname}
+                  </span>
+                </li>
+                <li className='text-md lg:text-md font-bold'>{data?.title}</li>
+              </ul>
               {/* <img src={detail} alt='Home Icon' className='mt-4 mb-4' /> */}
               <div
-                className='text-sm lg:text-md font-regular whitespace-pre-line'
+                className='text-sm lg:text-md font-regular whitespace-pre-line px-2'
                 dangerouslySetInnerHTML={{ __html: data?.content }}
               />
             </div>
@@ -153,7 +162,7 @@ export default function Terms() {
       </div>
       <div className='flex-1 bg-white'>
         <div className='max-w-5xl mx-auto py-4 flex'>
-          <div className='flex-1 ml-5 mr-5 lg:ml-8 lg:mr-8'>
+          <div className='flex-1 mx-5 lg:mx-8'>
             <div className='flex flex-row items-center mb-8'>
               <img
                 src={bubble}

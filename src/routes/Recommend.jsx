@@ -33,7 +33,7 @@ export default function Recommend() {
 
   async function getRecommendCategories() {
     try {
-      const res = await api.get('recommend/category?page=1&size=5')
+      const res = await api.get('recommend/category?page=1&size=10')
       setCategoryData(res.data.data.list);
     } catch (error) {
       console.error(error)
@@ -41,7 +41,7 @@ export default function Recommend() {
   }
   async function getRecommendCountries() {
     try {
-      const res = await api.get('recommend/country?page=1&size=5')
+      const res = await api.get('recommend/country?page=1&size=10')
       setCountryData(res.data.data.list);
     } catch (error) {
       console.error(error)
