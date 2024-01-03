@@ -98,8 +98,7 @@ export default function Terms() {
     }
 
     try {
-      const res = await api.put(`post/${commentId}/comment`, {
-        commentId: commentId,
+      const res = await api.put(`${id}/comment/${commentId}`, {
         content: editComment
       })
 
