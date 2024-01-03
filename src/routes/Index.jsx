@@ -14,6 +14,7 @@ import { api } from '@/api/axios';
 import formatDate from '@/utils/formatDate';
 import checkCountryImg from '@/utils/checkCountryImg';
 import getUserInfo from '@/modules/getUserInfo';
+import carousel from "@/assets/carousel.png";
 
 export default function Index() {
   const [categories, setCategories] = useState([])
@@ -101,7 +102,7 @@ export default function Index() {
               {categories.map((category) => (<Chip data={category} key={category.name} />))}
             </div>
             <img
-              src={window.innerWidth < 768 ? bannermobile : banner}
+              src={carousel}
               alt='Home Icon'
               className='w-full h-[110px] lg:h-18 object-fill'
             />

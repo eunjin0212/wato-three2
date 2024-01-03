@@ -56,61 +56,63 @@ export default function Recommend() {
   }, []);
 
   return (
-    <div className="main">
-      <div className="flex-1">
+    <main className="main">
+      <section className="flex-1">
         <LogoTopbar nomenu />
-        <div className="max-w-3xl mx-auto py-4 flex flex-col">
+        <div className="max-w-3xl mx-auto py-4 flex">
           <Menu />
-          <Carousel />
-          <div className="flex flex-1 mx-5 lg:mx-8 flex-wrap">
-            <h2 className="text-lg font-bold pb-4">카테고리별 게시글</h2>
-            <div className="flex  flex-wrap">
-              {isMobile ? (
-                <CardDrag
-                  data={categoryData}
-                  formatDate={formatDate}
-                  tag
-                />
-              ) : (
-                <>
-                  {categoryData.map((doc, index) => (
-                    <Card
-                      key={index}
-                      {...doc}
-                      padding={(index + 1) % 2 == 0}
-                      tag
-                      formatDate={formatDate}
-                    />
-                  ))}
-                </>
-              )}
-            </div>
-            <h2 className="text-lg font-bold pl-3 pb-4 pt-4">국가별 게시글</h2>
-            <div className="flex  flex-wrap">
-              {isMobile ? (
-                <CardDrag
-                  data={countryData}
-                  formatDate={formatDate}
-                  country
-                />
-              ) : (
-                <>
-                  {countryData.map((doc, index) => (
-                    <Card
-                      country
-                      key={index}
-                      {...doc}
-                      padding={(index + 1) % 2 == 0}
-                      formatDate={formatDate}
-                    />
-                  ))}
-                </>
-              )}
+          <div className='flex flex-col'>
+            <Carousel />
+            <div className="flex flex-1 mx-5 mt-5 lg:mx-8 flex-wrap">
+              <h2 className="text-lg font-bold pb-4">카테고리별 게시글</h2>
+              <div className="flex  flex-wrap">
+                {isMobile ? (
+                  <CardDrag
+                    data={categoryData}
+                    formatDate={formatDate}
+                    tag
+                  />
+                ) : (
+                  <>
+                    {categoryData.map((doc, index) => (
+                      <Card
+                        key={index}
+                        {...doc}
+                        padding={(index + 1) % 2 == 0}
+                        tag
+                        formatDate={formatDate}
+                      />
+                    ))}
+                  </>
+                )}
+              </div>
+              <h2 className="text-lg font-bold pl-3 pb-4 pt-4">국가별 게시글</h2>
+              <div className="flex  flex-wrap">
+                {isMobile ? (
+                  <CardDrag
+                    data={countryData}
+                    formatDate={formatDate}
+                    country
+                  />
+                ) : (
+                  <>
+                    {countryData.map((doc, index) => (
+                      <Card
+                        country
+                        key={index}
+                        {...doc}
+                        padding={(index + 1) % 2 == 0}
+                        formatDate={formatDate}
+                      />
+                    ))}
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
 
