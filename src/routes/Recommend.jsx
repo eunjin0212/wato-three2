@@ -59,13 +59,11 @@ export default function Recommend() {
     <div className="main">
       <div className="flex-1">
         <LogoTopbar nomenu />
-        <div className="max-w-3xl mx-auto py-4 flex">
+        <div className="max-w-3xl mx-auto py-4 flex flex-col">
           <Menu />
-          <div className="flex flex-1 ml-5 mr-5 lg:ml-8 lg:mr-8 flex-wrap">
-            <Carousel />
-
+          <Carousel />
+          <div className="flex flex-1 mx-5 lg:mx-8 flex-wrap">
             <h2 className="text-lg font-bold pb-4">카테고리별 게시글</h2>
-
             <div className="flex  flex-wrap">
               {isMobile ? (
                 <CardDrag
