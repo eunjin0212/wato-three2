@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router';
 import Cookies from 'js-cookie';
 import logo from "@/assets/logo_w.png";
@@ -14,7 +15,6 @@ import SnsButton from '@/ui/SnsButton';
 import Input from '@/ui/Input';
 import checkEmailType from '@/utils/checkEmailType';
 import kakaoLogin from '@/modules/kakaoLogin';
-import getUserInfo from '@/modules/getUserInfo';
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -71,14 +71,12 @@ export default function Login() {
         setValidate({ email: { msg: res.data.message, status: false } })
         throw new Error(res.data.message)
       }
-
-      setValidate({ ...initValidate })
-
+      
+      axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.data.token}`;
       Cookies.set('token', res.data.data.token, { expires: new Date(res.data.data.expiration), secure: true })
-      getUserInfo().then((user) => {
-        Cookies.set('userId', user.id, { expires: new Date(res.data.data.expiration), secure: true })
-        navigate('/index')
-      })
+      
+      setValidate({ ...initValidate })      
+      navigate('/index')
     } catch (error) {
       console.error(error)
     }

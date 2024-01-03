@@ -13,6 +13,7 @@ import FloatyIcon from '@/components/FloatyIcon';
 import Chip from '@/ui/Chip';
 import { api } from '@/api/axios';
 import formatDate from '@/utils/formatDate';
+import getUserInfo from '@/modules/getUserInfo';
 
 export default function Index() {
   const [categories, setCategories] = useState([])
@@ -74,6 +75,10 @@ export default function Index() {
       navigate('/')
       return;
     }
+
+    getUserInfo().then((user) => {
+      Cookies.set('userId', user.id, { secure: true })
+    })
 
     // refreshToken()
     getPostList()
