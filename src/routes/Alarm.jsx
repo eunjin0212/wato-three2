@@ -27,7 +27,7 @@ const Card = ({ title, date, active }) => {
 
 export default function Alarm() {
   return (
-    <div className="flex flex-col lg:flex-row bg-gray-100 min-h-screen">
+    <div className="main">
       <div className="flex-1">
         <Topbar title={"알림"} />
         <div className="max-w-3xl mx-auto pt-5 pb-16 flex">

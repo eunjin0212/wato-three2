@@ -58,7 +58,7 @@ export default function Mypage() {
   }, []);
 
   return (
-    <div className='flex flex-col lg:flex-row bg-gray-100 min-h-screen'>
+    <div className='main'>
       <div className='flex-1'>
         <Topbar title='마이페이지' />
         <div className='max-w-3xl mx-auto py-5 flex'>

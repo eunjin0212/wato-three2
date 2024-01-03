@@ -60,7 +60,7 @@ export default function Customer() {
     }
   }
   return (
-    <main className='flex flex-col lg:flex-row bg-gray-100 min-h-screen'>
+    <main className='main'>
       <section className='flex-1'>
         <Topbar title='고객센터' />
         <form

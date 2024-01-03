@@ -56,7 +56,7 @@ export default function Recommend() {
   }, []);
 
   return (
-    <div className="flex flex-col lg:flex-row bg-gray-100 min-h-screen overflow-x-hidden">
+    <div className="main">
       <div className="flex-1">
         <LogoTopbar nomenu />
         <div className="max-w-3xl mx-auto py-4 flex">

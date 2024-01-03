@@ -23,7 +23,7 @@ const Notice = () => {
   }, [])
 
   return (
-    <div className="flex flex-col lg:flex-row bg-gray-100 min-h-screen">
+    <div className="main">
       <div className="flex-1">
         <Topbar title='공지사항' />
         <div className="flex flex-col max-w-3xl mx-auto px-5 py-10 lg:px-8">
