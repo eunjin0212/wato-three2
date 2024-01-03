@@ -141,10 +141,10 @@ const Card = ({
                   className='w-6 h-6 object-cover'
                 />
               )}
-              <p className='text-md font-medium ml-2 text-gray-500 '>
+              <p className='text-md font-medium ml-2 text-gray-500'>
                 {countryName}
               </p>
-              <p className='text-md font-medium ml-2 text-gray-500 '>
+              <p className='text-md font-medium ml-2 text-gray-500'>
                 {nickname}
               </p>
             </div>
@@ -154,7 +154,7 @@ const Card = ({
           </div>
           <div className='flex flex-row items-center justify-between'>
             <h1 className='text-lg font-regular'>{title}</h1>
-            <p className='text-sm font-medium ml-2 text-gray-400'>
+            <p className='text-sm font-medium ml-2 text-gray-400 text-right'>
               {formatDate(createDate)}
             </p>
           </div>

@@ -277,9 +277,9 @@ function Topbar({ alignLeft, formatDate, data, id }) {
   return (
     <div className='bg-white shadow pr-2'>
       <div
-        className={`max-w-6xl mx-auto relative py-4 px-0 flex items-center justify-between lg:px-4`}
+        className={`max-w-5xl mx-auto relative py-4 px-0 flex lg:flex-row flex-col items-center justify-between gap-3 lg:px-4`}
       >
-        <div>
+        <div className='w-full'>
           <img
             src={backicon}
             alt='Dropdown Icon'
@@ -287,25 +287,25 @@ function Topbar({ alignLeft, formatDate, data, id }) {
             onClick={navigateBack}
           />
           <h1
-            className={`text-md font-semibold ml-[60px] lg:text-lg lg:ml-[80px] ${alignLeft ? 'text-left ml-20' : ''
-              }`}
+            className={['text-md font-semibold ml-[60px] lg:text-lg lg:ml-[80px] lg:whitespace-nowrap', alignLeft ? 'text-left ml-20' : ''].join(' ')}
           >
             {data?.title}
           </h1>
         </div>
 
-        <div className='flex flex-row justify-center items-center gap-3'>
-
-          <p className='text-sm lg:text-md font-semibold flex flex-nowrap items-center gap-2'>
+        <div className='flex lg:justify-center justify-between w-full lg:w-1/3 items-center gap-3 px-2'>
+          <p className='text-sm lg:text-md font-semibold w-1/3 lg:w-2/3 flex flex-nowrap lg:flex-row flex-col lg:items-center items-start gap-3'>
             <img src={checkCountryImg(data?.countryName)} alt='profileImageUrl' className='w-6 h-6 rounded-full' />
             <span className='whitespace-nowrap block'>
               {data?.nickname}
             </span>
           </p>
-          <p className='text-xs text-gray-600 w-20 text-center lg:w-28 lg:text-sm'>
-            {formatDate(data?.createDate)}
+          <p className='flex flex-col w-2/3 lg:w-1/3 gap-3 items-end lg:flex-row lg:items-center lg:justify-end'>
+            <span className='text-xs w-fit whitespace-nowrap block text-gray-600 text-center lg:w-28 lg:text-sm'>
+              {formatDate(data?.createDate)}
+            </span>
+            <Chip data={data} dataLabel='categoryName' />
           </p>
-          <Chip data={data} dataLabel='categoryName' />
           {
             +Cookies.get('userId') === +data.userId &&
             <>
