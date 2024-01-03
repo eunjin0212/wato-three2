@@ -4,7 +4,7 @@ import { api } from '@/api/axios';
 import Menu from "@/components/Menu";
 import Carousel from "@/ui/Carousel";
 import logo from "@/assets/logo.png";
-import korea from "@/assets/korea.png";
+import checkCountryImg from '@/utils/checkCountryImg';
 import formatDate from '@/utils/formatDate';
 
 export default function Recommend() {
@@ -72,7 +72,6 @@ export default function Recommend() {
                   data={categoryData}
                   formatDate={formatDate}
                   tag
-                  country={false}
                 />
               ) : (
                 <>
@@ -94,7 +93,7 @@ export default function Recommend() {
                 <CardDrag
                   data={countryData}
                   formatDate={formatDate}
-                  country={true}
+                  country
                 />
               ) : (
                 <>
@@ -201,7 +200,7 @@ const Card = ({
             {country && (
               <>
                 <img
-                  src={korea}
+                  src={checkCountryImg(countryName)}
                   alt="Recommend Icon"
                   className="w-6 h-6 object-cover"
                 />
@@ -232,37 +231,37 @@ function CardDrag({ data, tag, country, formatDate }) {
       {...events}
       ref={ref}
     >
-      {data.map((category) => {
+      {data.map((item) => {
         return (
-          <div className={`w-[300px] mb-10`} key={category.countryName}>
+          <div className={`w-[300px] mb-10`} key={item.countryName}>
             <div className="p-4 flex flex-col rounded-lg shadow-sm bg-white justify-start space-y-2 w-[220px]">
               <div className="flex flex-row items-center justify-between">
                 <div className="flex flex-row items-center">
                   {tag && (
                     <span className="bg-blue-50 text-primary text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-                      {category.categoryName}
+                      {item.categoryName}
                     </span>
                   )}
                   {country && (
                     <>
                       <img
-                        src={korea}
+                        src={checkCountryImg(item.countryName)}
                         alt="Recommend Icon"
                         className="w-6 h-6 object-cover"
                       />
                       <p className="text-xs font-medium ml-2 text-gray-500">
-                        dfdf
+                        {item.countryName}
                       </p>
                     </>
                   )}
                 </div>
                 <p className="text-xs font-medium ml-2 text-gray-400">
-                  {formatDate(category.createDate)}
+                  {formatDate(item.createDate)}
                 </p>
               </div>
-              <h1 className="text-sm font-regular">{category.title}</h1>
+              <h1 className="text-sm font-regular">{item.title}</h1>
               <p className="text-sm font-regular text-gray-400">
-                {category.content}
+                {item.content}
               </p>
             </div>
           </div>

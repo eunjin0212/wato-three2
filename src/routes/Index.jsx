@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 import Cookies from 'js-cookie';
-import korea from '@/assets/korea.png';
 import comment from '@/assets/ico_comment_line.png';
 import bubble from '@/assets/ico_comment_gray.svg';
 import banner from '@/assets/banner.png';
@@ -13,6 +12,7 @@ import FloatyIcon from '@/components/FloatyIcon';
 import Chip from '@/ui/Chip';
 import { api } from '@/api/axios';
 import formatDate from '@/utils/formatDate';
+import checkCountryImg from '@/utils/checkCountryImg';
 import getUserInfo from '@/modules/getUserInfo';
 
 export default function Index() {
@@ -136,7 +136,7 @@ const Card = ({
             <div className='flex flex-row items-center'>
               {countryName && (
                 <img
-                  src={korea}
+                  src={checkCountryImg(countryName)}
                   alt='Recommend Icon'
                   className='w-6 h-6 object-cover'
                 />
