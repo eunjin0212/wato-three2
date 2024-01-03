@@ -1,4 +1,11 @@
-
+/**
+ * @param {string} label 
+ * @param {string} src 
+ * @param {string} className 
+ * @param {() => void} onClick 
+ * @returns {React.JSX.Element}
+ * @description SNS 로그인 버튼 컴포넌트
+ */
 const SnsButton = ({ label, src, className, onClick }) => {
   return (
     <button

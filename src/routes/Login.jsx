@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import Cookies from 'js-cookie';
@@ -141,10 +141,10 @@ export default function Login() {
   ]
 
   return (
-    <main className="flex flex-col lg:flex-row bg-primary min-h-screen">
+    <main className="flex flex-col bg-primary min-h-screen">
       <section className="flex-1 px-10 flex flex-col text-center justify-between items-center">
-        <div className="flex flex-col gap-3 items-center lg:w-96 w-80">
-          <img src={logo} alt="Home Icon" className="mt-40 mb-4 " />
+        <div className="flex flex-col gap-3 items-center lg:w-96 w-80 px-10">
+          <img src={logo} alt="Home Icon" className="my-40" />
           {snsButtons.map(({ label, src, className, onClick }) => (
             <SnsButton
               key={label}
@@ -155,7 +155,7 @@ export default function Login() {
             />
           ))}
           <form className='w-full flex flex-col gap-3 items-center'>
-            {useEmail && <Fragment>
+            {useEmail && <>
               {emailInput.map(({ type, value, onChange, placeholder, name, validate }, idx) =>
                 <Input
                   key={`${name}_${idx}`}
@@ -169,7 +169,7 @@ export default function Login() {
                   name={name}
                 />
               )}
-            </Fragment>}
+            </>}
             <SnsButton
               src={emailIcon}
               className='bg-plusplus text-white'
