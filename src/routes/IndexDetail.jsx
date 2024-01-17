@@ -278,7 +278,7 @@ function Topbar({ alignLeft, formatDate, data, id }) {
       <div
         className={`max-w-5xl mx-auto relative py-4 px-0 flex lg:flex-row flex-col items-center justify-between gap-3 lg:px-4`}
       >
-        <div className='w-full'>
+        <div className='w-1/2'>
           <img
             src={backicon}
             alt='Dropdown Icon'
@@ -292,14 +292,14 @@ function Topbar({ alignLeft, formatDate, data, id }) {
           </h1>
         </div>
 
-        <div className='flex lg:justify-center justify-between w-full lg:w-1/3 items-center gap-3 px-2'>
-          <p className='text-sm lg:text-md font-semibold w-1/3 lg:w-2/3 flex flex-nowrap lg:flex-row flex-col lg:items-center items-start gap-3'>
+        <div className='flex lg:justify-end justify-between w-full lg:w-1/2 items-center gap-3 px-2'>
+          <p className='text-sm lg:text-md font-semibold w-1/3 lg:w-fit flex flex-nowrap lg:flex-row flex-col lg:items-center items-start gap-3'>
             <img src={checkCountryImg(data?.countryName)} alt='profileImageUrl' className='w-6 h-6 rounded-full' />
             <span className='whitespace-nowrap block'>
               {data?.nickname}
             </span>
           </p>
-          <p className='flex flex-col w-2/3 lg:w-1/3 gap-3 items-end lg:flex-row lg:items-center lg:justify-end'>
+          <p className='flex flex-col w-2/3 lg:w-fit gap-3 items-end lg:flex-row lg:items-center lg:justify-end'>
             <span className='text-xs w-fit whitespace-nowrap block text-gray-600 text-center lg:w-28 lg:text-sm'>
               {formatDate(data?.createDate)}
             </span>
@@ -308,7 +308,7 @@ function Topbar({ alignLeft, formatDate, data, id }) {
           {
             +Cookies.get('userId') === +data.userId &&
             <>
-              <Link to={`/write/${id}`}>
+              <Link to={`/write/${id}`} className='min-w-[1.25rem] h-5 block'>
                 <img
                   src={edit}
                   alt='Alert Icon'
